@@ -1,11 +1,156 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-    </div>
+    <!-- <div id="nav">
+      <router-link to="/login">Login</router-link>
+      <router-link to="/home">Home</router-link>
+    </div> -->
     <router-view/>
   </div>
 </template>
 
 <style>
+html {
+  min-height: 100%;
+  font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
+  background-color: rgb(253, 241, 241);
+}
+
+body {
+  letter-spacing: .0267rem;
+}
+
+header {
+  position: -webkit-sticky;
+  position: sticky;
+  width: 100%;
+  top: 0;
+  background-color: rgb(245, 68, 76);
+  color: #fff;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+  color: #eb2932;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+[v-cloak] {
+  display: none
+}
+
+.wide-btn {
+  display: block;
+  width: 100%;
+  height: 1.2rem;
+  margin-bottom: .5rem;
+  border-radius: .15rem;
+  font-size: .5867rem;
+  border: 0;
+  box-shadow: .1rem .1rem #ccc;
+}
+
+p {
+  margin: 0;
+}
+
+.rotateDown {
+  transform: rotate(180deg);
+  transition: all .2s linear;
+}
+
+.rotateUp {
+  transform: rotate(0deg);
+  transition: all .2s linear;
+}
+
+.small-btn {
+  display: inline-block;
+  height: 1.2rem;
+  border-radius: .4rem;
+  font-size: .5867rem;
+  border: 0;
+}
+
+.abled-btn {
+  background-color: #EF4C53;
+  color: #fff;
+  height: 1rem;
+}
+
+.disabled-btn {
+  color: #ccc;
+  background-color: #f0f0f0;
+  height: 1rem;
+}
+
+.wide-input {
+  width: 100%;
+  height: 1rem;
+  border-radius: .45rem;
+  border: none;
+  background-color: transparent;
+  box-shadow: 0 0 .1rem #EF4C53;
+  padding-left: .2667rem;
+  margin-bottom: .4rem;
+  box-sizing: border-box;
+  outline: none;
+  color: #232332;
+  font-size: .35rem;
+}
+
+.small-input {
+  height: 1rem;
+  border-radius: .1333rem;
+  border: .0533rem solid #e0e0e0;
+  padding-left: .2667rem;
+  box-sizing: border-box;
+  outline: none;
+  color: #232332;
+  font-size: .4267rem;
+}
+
+.red {
+  color: #EF4C53;
+}
+
+.blue {
+  color: rgb(43, 43, 241);
+}
+
+.yellow {
+  color: rgb(241, 192, 55);
+}
+
+.green {
+  color: rgb(90, 146, 90);
+}
+
+.fade {
+  color: #333;
+}
+
+.back-btn {
+  display: none;
+  position: fixed;
+  text-align: right;
+  bottom: .5rem;
+  right: 0;
+  font-family: "iconfont";
+  font-size: .8rem;
+  color: #eb2932;
+  padding: .4rem;
+  z-index: 99;
+}
 </style>
