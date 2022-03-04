@@ -11,17 +11,22 @@
         :product="product"
       />
     </ul>
-    <page-remind/>
+    <page-remind>
+      <span>以上产品利率仅供参考，请您以实际交易利率为准</span>
+    </page-remind>
+
+    <back-button/>
   </div>
 </template>
 
 <script>
+import BackButton from '../components/BackButton.vue';
 import MarketCard from "../components/MarketCard.vue";
 import MarketLogoPic from "../components/MarketLogoPic.vue";
 import PageHeader from "../components/PageHeader.vue";
 import PageRemind from '../components/PageRemind.vue';
 export default {
-  components: { PageHeader, MarketLogoPic, MarketCard, PageRemind },
+  components: { PageHeader, MarketLogoPic, MarketCard, PageRemind, BackButton },
   data() {
     return {
       pageType: "",

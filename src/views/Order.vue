@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="order">
     <page-header>
       <span>全部订单</span>
     </page-header>
@@ -28,16 +28,19 @@
         >去主页看看吧</van-button
       >
     </van-empty>
+
+    <back-button/>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import BackButton from '../components/BackButton.vue';
 import OrderCard from "../components/OrderCard.vue";
 import PageHeader from "../components/PageHeader.vue";
 
 export default {
-  components: { PageHeader, OrderCard },
+  components: { PageHeader, OrderCard, BackButton },
   data() {
     return {
       active: null,

@@ -13,7 +13,7 @@ const routes = [
   {
     path: '/',
     // 重定向到login页面
-    redirect: '/order'
+    redirect: '/product/001'
   },
   {
     path: '/login',

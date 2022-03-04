@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-       <div class="b-remind">温馨提示：<br>以上产品利率仅供参考，请您以实际交易利率为准</div>
+       <div class="b-remind">温馨提示：<br><slot></slot></div>
     </footer> 
 </template>
 
