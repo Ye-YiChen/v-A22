@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { Button, Checkbox, Toast, Swipe, SwipeItem, Lazyload, NoticeBar } from 'vant'
+import { Button, Checkbox, Toast, Swipe, SwipeItem, Lazyload, NoticeBar, Tab, Tabs, Empty } from 'vant'
 import '@/assets/fonts/iconfont.css'
 import 'amfe-flexible'
 import axios from 'axios'
@@ -21,6 +21,9 @@ Vue.use(Swipe);
 Vue.use(SwipeItem);
 Vue.use(Lazyload);
 Vue.use(NoticeBar);
+Vue.use(Tab);
+Vue.use(Tabs); 
+Vue.use(Empty);
 
 // axios基本设置
 axios.defaults.baseURL = 'http://'

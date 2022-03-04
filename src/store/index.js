@@ -8,7 +8,6 @@ const userAbout = {
   namespaced: true, // 开启命名空间
   state: {
     userName: '',
-
   },
   mutations: {
     SET_USERNAME(state,value) {

@@ -31,6 +31,19 @@ const minin = {
                 }
             });
         },
+        goHome(){
+            this.$router.push({
+                name: "Home",
+            });
+        },
+        goDetail(orderID){
+            this.$router.push({
+                name: "Detail",
+                params:{
+                    orderID
+                }
+            });
+        },
         goBack(){
             this.$router.back();
         }

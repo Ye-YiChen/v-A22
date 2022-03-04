@@ -6,13 +6,14 @@ import Home from '../views/Home.vue'
 import Market from '../views/Market.vue'
 import Order from '../views/Order.vue'
 import Product from '../views/Product.vue'
+import Detail from '../views/Detail.vue'
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path:'/',
+    path: '/',
     // 重定向到login页面
-    redirect:'/market/loan'
+    redirect: '/order'
   },
   {
     path: '/login',
@@ -22,31 +23,36 @@ const routes = [
   {
     path: '/register',
     name: 'Register',
-    component:Register,
+    component: Register,
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     // component: () => import(/* webpackChunkName: "about" */ '../views/Home.vue')
   },
   {
-    path:'/home',
-    name:'Home',
-    component:Home
+    path: '/home',
+    name: 'Home',
+    component: Home
   },
   {
-    path:'/market/:type',
-    name:'Market',
-    component:Market
+    path: '/market/:type',
+    name: 'Market',
+    component: Market
   },
   {
-    path:'/order',
-    name:'Order',
-    component:Order
+    path: '/order',
+    name: 'Order',
+    component: Order,
   },
   {
-    path:'/product/:productID',
-    name:'Product',
-    component:Product
+    path: '/product/:productID',
+    name: 'Product',
+    component: Product
+  },
+  {
+    path: '/detail/:orderID',
+    name: 'Detail',
+    component: Detail
   }
 ]
 
