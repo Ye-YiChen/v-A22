@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { Button, Checkbox, Toast, Swipe, SwipeItem, Lazyload, NoticeBar, Tab, Tabs, Empty,Step, Steps } from 'vant'
+import { Button, Checkbox, Toast, Swipe, SwipeItem, Lazyload, NoticeBar, Tab, Tabs, Empty,Step, Steps,Collapse, CollapseItem,Cell, Popup } from 'vant'
 import '@/assets/fonts/iconfont.css'
 import 'amfe-flexible'
 import axios from 'axios'
@@ -26,7 +26,10 @@ Vue.use(Tabs);
 Vue.use(Empty);
 Vue.use(Step);
 Vue.use(Steps);
-
+Vue.use(Collapse);
+Vue.use(CollapseItem);
+Vue.use(Cell);
+Vue.use(Popup);
 // axios基本设置
 axios.defaults.baseURL = 'http://'
 axios.defaults.withCredentials = true

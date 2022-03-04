@@ -10,6 +10,12 @@ export default {
 };
 </script>
 <style>
+body{
+  min-height: 100%;
+}
+#app{
+  min-height: 100%;
+}
 html {
   min-height: 100%;
   font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
