@@ -7,13 +7,14 @@ import Market from '../views/Market.vue'
 import Order from '../views/Order.vue'
 import Product from '../views/Product.vue'
 import Detail from '../views/Detail.vue'
+import Purchase from '../views/Purchase.vue'
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
     // 重定向到login页面
-    redirect: '/product/001'
+    redirect: '/purchase/001'
   },
   {
     path: '/login',
@@ -50,10 +51,15 @@ const routes = [
     component: Product
   },
   {
+    path: '/purchase/:productID',
+    name: 'Purchase',
+    component: Purchase
+  },
+  {
     path: '/detail/:orderID',
     name: 'Detail',
     component: Detail
-  }
+  },
 ]
 
 const router = new VueRouter({
