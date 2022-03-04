@@ -25,7 +25,7 @@ export default {
     left: 0;
     width: 100%;
     height: 525px;
-    background: url(../assets/images/steamer.png);
+    background: url(../../public/images/steamer.png);
     animation: run 15s linear infinite backwards;
     z-index: -99;
 }

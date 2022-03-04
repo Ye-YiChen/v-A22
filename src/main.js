@@ -2,18 +2,32 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import {Button,Checkbox} from 'vant'
+import { Button, Checkbox, Toast, Swipe, SwipeItem, Lazyload, NoticeBar } from 'vant'
 import '@/assets/fonts/iconfont.css'
 import 'amfe-flexible'
+import axios from 'axios'
+import Minxin from './assets/goRoute'
 
+Vue.mixin(Minxin)
+Vue.prototype.axios = axios;
+// 关闭生产提示
+Vue.config.productionTip = false;
 
+// vant 组件引入 
+Vue.use(Checkbox);
+Vue.use(Button);
+Vue.use(Toast);
+Vue.use(Swipe);
+Vue.use(SwipeItem);
+Vue.use(Lazyload);
+Vue.use(NoticeBar);
 
-Vue.config.productionTip = false
-Vue.use(Checkbox)
-Vue.use(Button)
+// axios基本设置
+axios.defaults.baseURL = 'http://'
+axios.defaults.withCredentials = true
 
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
 }).$mount('#app')

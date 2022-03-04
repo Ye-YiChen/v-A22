@@ -1,13 +1,14 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/login">Login</router-link>
-      <router-link to="/home">Home</router-link>
-    </div> -->
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
+<script>
+export default {
+
+};
+</script>
 <style>
 html {
   min-height: 100%;
@@ -16,7 +17,7 @@ html {
 }
 
 body {
-  letter-spacing: .0267rem;
+  letter-spacing: 0.0267rem;
 }
 
 header {
@@ -47,18 +48,18 @@ li {
 }
 
 [v-cloak] {
-  display: none
+  display: none;
 }
 
 .wide-btn {
   display: block;
   width: 100%;
   height: 1.2rem;
-  margin-bottom: .5rem;
-  border-radius: .15rem;
-  font-size: .5867rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.15rem;
+  font-size: 0.5867rem;
   border: 0;
-  box-shadow: .1rem .1rem #ccc;
+  box-shadow: 0.1rem 0.1rem #ccc;
 }
 
 p {
@@ -67,24 +68,24 @@ p {
 
 .rotateDown {
   transform: rotate(180deg);
-  transition: all .2s linear;
+  transition: all 0.2s linear;
 }
 
 .rotateUp {
   transform: rotate(0deg);
-  transition: all .2s linear;
+  transition: all 0.2s linear;
 }
 
 .small-btn {
   display: inline-block;
   height: 1.2rem;
-  border-radius: .4rem;
-  font-size: .5867rem;
+  border-radius: 0.4rem;
+  font-size: 0.5867rem;
   border: 0;
 }
 
 .abled-btn {
-  background-color: #EF4C53;
+  background-color: #ef4c53;
   color: #fff;
   height: 1rem;
 }
@@ -98,31 +99,31 @@ p {
 .wide-input {
   width: 100%;
   height: 1rem;
-  border-radius: .45rem;
+  border-radius: 0.45rem;
   border: none;
   background-color: transparent;
-  box-shadow: 0 0 .1rem #EF4C53;
-  padding-left: .2667rem;
-  margin-bottom: .4rem;
+  box-shadow: 0 0 0.1rem #ef4c53;
+  padding-left: 0.2667rem;
+  margin-bottom: 0.4rem;
   box-sizing: border-box;
   outline: none;
   color: #232332;
-  font-size: .35rem;
+  font-size: 0.35rem;
 }
 
 .small-input {
   height: 1rem;
-  border-radius: .1333rem;
-  border: .0533rem solid #e0e0e0;
-  padding-left: .2667rem;
+  border-radius: 0.1333rem;
+  border: 0.0533rem solid #e0e0e0;
+  padding-left: 0.2667rem;
   box-sizing: border-box;
   outline: none;
   color: #232332;
-  font-size: .4267rem;
+  font-size: 0.4267rem;
 }
 
 .red {
-  color: #EF4C53;
+  color: #ef4c53;
 }
 
 .blue {
@@ -145,12 +146,12 @@ p {
   display: none;
   position: fixed;
   text-align: right;
-  bottom: .5rem;
+  bottom: 0.5rem;
   right: 0;
   font-family: "iconfont";
-  font-size: .8rem;
+  font-size: 0.8rem;
   color: #eb2932;
-  padding: .4rem;
+  padding: 0.4rem;
   z-index: 99;
 }
 </style>

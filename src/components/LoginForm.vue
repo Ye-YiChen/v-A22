@@ -1,8 +1,8 @@
 <template>
   <div class="main">
     <div class="logo">
-      <a href="login.html"
-        ><img src="../assets/images/nor-logo1.png" alt="三湘银行"
+      <a href="javascript:;"
+        ><img src="../../public/images/nor-logo1.png" alt="三湘银行"
       /></a>
     </div>
     <form action="" class="login">
@@ -11,14 +11,10 @@
         ><input
           type="text"
           name="username"
-          v-model.number='account'
+          v-model.number="account"
           placeholder="手机号/身份号"
           id="username"
       /></label>
-      <div class="alert-box">
-        <div class="icon-cuowu">请输入正确的用户名</div>
-        <div class="icon-zhengque"></div>
-      </div>
       <label id="p-ico" for="password"
         ><span>&#xe62e;</span
         ><input
@@ -28,10 +24,6 @@
           v-model="pwd"
           placeholder="密码"
       /></label>
-      <div class="alert-box">
-        <div class="icon-cuowu">请输入正确的用户名</div>
-        <div class="icon-zhengque"></div>
-      </div>
       <div class="more-action">
         <label for="remember">
           <!-- <van-checkbox name="remember" shape="square" id="remember" icon-size=".426rem">记住密码</van-checkbox> -->
@@ -41,150 +33,187 @@
         <a class="find-psw" href="#">找回密码</a>
       </div>
     </form>
-    <button class="wide-btn login-btn">登录</button>
-    <button class="wide-btn register-btn">注册</button>
+    <button class="wide-btn login-btn" @click="Login()">登录</button>
+    <button class="wide-btn register-btn" @click="goRegister()">注册</button>
     <!-- <button class="wide-btn quick-login-btn">网银登录</button> -->
   </div>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-            account:'',
-            pwd:''
-        }
+  data() {
+    return {
+      account: "",
+      pwd: "",
+    };
+  },
+  methods: {
+    Login() {
+      // 验证
+      if (
+        String(this.account).length != 11 &&
+        String(this.account).length != 18
+      ) {
+        this.$toast.fail("请输入正确的账号");
+        return false;
+      }
+      if (!this.pwd) {
+        this.$toast.fail("密码不能为空");
+        return false;
+      }
+      this.$toast.loading({
+        duration: 0,
+        message: "正在登录",
+      });
+
+      this.axios({
+        methods: "get",
+        url: "/user/login",
+        data: {
+          phone: this.account,
+          pwd: this.pwd,
+        },
+      })
+        .then((response) => {
+          if (response.status != 0) this.$toast.fail(response.data.message);
+          else this.$toast.success("登录成功！");
+        })
+        .catch((err) => {
+          this.$toast.fail(err.message);
+        });
     },
+    
+  },
 };
 </script>
 
 <style scoped>
 .main {
-    position: relative;
-    background-color: #fff;
-    width: 100%;
-    padding: .5rem;
-    border-radius: .2rem;
-    box-shadow: 0 0 .4rem #EF4C53;
-    box-sizing: border-box;
-    /* opacity: .8; */
+  position: relative;
+  background-color: #fff;
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+  box-shadow: 0 0 0.4rem #ef4c53;
+  box-sizing: border-box;
+  /* opacity: .8; */
 }
 .logo {
-    height: auto;
-    width: 4rem;
-    margin: 0 auto;
+  height: auto;
+  width: 4rem;
+  margin: 0 auto;
 }
 
 .logo img {
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
 }
 
 .title {
-    font-family: "Microsoft Yahei", "Helvetica Neue";
-    text-align: center;
-    font-size: .9333rem;
-    color: #EF4C53;
-    font-weight: 400;
-    text-shadow: .1333rem .1333rem .2rem #fc949a;
-    margin-top: 0;
+  font-family: "Microsoft Yahei", "Helvetica Neue";
+  text-align: center;
+  font-size: 0.9333rem;
+  color: #ef4c53;
+  font-weight: 400;
+  text-shadow: 0.1333rem 0.1333rem 0.2rem #fc949a;
+  margin-top: 0;
 }
 
 .login {
-    margin-top: .8rem;
+  margin-top: 0.8rem;
 }
-.login > label{
-    font-family: "iconfont";
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    width: 100%;
-    background-color: transparent;
-    box-shadow: 0 0 .1rem #EF4C53;
-    border-radius: .45rem;
-    padding:0 ;
-    /* margin-bottom: .4rem; */
+.login > label {
+  font-family: "iconfont";
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  background-color: transparent;
+  box-shadow: 0 0 0.1rem #ef4c53;
+  border-radius: 0.45rem;
+  padding: 0;
+  margin-bottom: 0.4rem;
 }
-.login span{
-    margin: 0 .2rem ;
-    font-size: .64rem;
-    color: #a81627;     
+.login span {
+  margin: 0 0.2rem;
+  font-size: 0.64rem;
+  color: #a81627;
 }
 #username,
 #password {
-    flex: 1;
-    height: 1rem;
-    border: none;
-    box-sizing: border-box;
-    outline: none;
-    color: #232332;
-    font-size: .4267rem;
-    background-color: transparent;
+  flex: 1;
+  height: 1rem;
+  border: none;
+  box-sizing: border-box;
+  outline: none;
+  color: #232332;
+  font-size: 0.4267rem;
+  background-color: transparent;
 }
 
 .more-action {
-    display: flex;
-    margin: .2667rem;
-    height: .5333rem;
+  display: flex;
+  margin: 0.2667rem;
+  height: 0.5333rem;
 }
 .more-action label {
-    display: flex;
-    flex: 50%;
-    height: 100%;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: nowrap;
+  display: flex;
+  flex: 50%;
+  height: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
 }
-.alert-box{
-    display: flex;
-    /* visibility: hidden; */
-    font-family: "iconfont";
-    font-size: .32rem;
-    margin: 3.75px;
-    height: .5333rem;
-    box-sizing: border-box;
-    background-color: #fff;
+.alert-box {
+  display: flex;
+  /* visibility: hidden; */
+  font-family: "iconfont";
+  font-size: 0.32rem;
+  margin: 3.75px;
+  height: 0.5333rem;
+  box-sizing: border-box;
+  background-color: #fff;
 }
 .alert-box > div {
-    display: none;
-    justify-content: center;
-    align-items: center;
+  display: none;
+  justify-content: center;
+  align-items: center;
 }
 #remember {
-    width: .5333rem;
-    height: .5333rem;
+  width: 0.5333rem;
+  height: 0.5333rem;
 }
 .more-action label span {
-    position: relative;
-    top: 0;
-    left: 0;
-    font-size: .4267rem;
-    line-height: .5333rem;
-    margin-left: .1rem;
+  position: relative;
+  top: 0;
+  left: 0;
+  font-size: 0.4267rem;
+  line-height: 0.5333rem;
+  margin-left: 0.1rem;
 }
 
 .find-psw {
-    text-align: right;
-    text-decoration: none;
-    font-size: .4267rem;
-    color: #888;
-    line-height: .5333rem;
+  text-align: right;
+  text-decoration: none;
+  font-size: 0.4267rem;
+  color: #888;
+  line-height: 0.5333rem;
 }
 
 .login-btn {
-    background-color: #e34c5d;
-    color: #fff;
+  background-color: #e34c5d;
+  color: #fff;
 }
 
 .register-btn {
-    background-color: #eee;
-    border: .04rem solid #e34c5d;
-    color: #EF4C53;
-    box-shadow: none;
+  background-color: #eee;
+  border: 0.04rem solid #e34c5d;
+  color: #ef4c53;
+  box-shadow: none;
 }
 
 .quick-login-btn {
-    background-color: rgb(241, 192, 55);
-    color: #e0e0e0;
+  background-color: rgb(241, 192, 55);
+  color: #e0e0e0;
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div class="login">
-    <LoginHeader />
-    <LoginForm />
-    <Streamer/>
+    <login-header >欢迎登录</login-header>
+    <login-form />
+    <streamer/>
   </div>
 </template>
 

@@ -1,12 +1,13 @@
 <template>
   <header class="header">
-    <h2>欢迎登录</h2>
+    <h2><slot></slot></h2>
     <div class="contact">意见反馈</div>
   </header>
 </template>
 
 <script>
-export default {};
+export default {
+};
 </script>
 
 <style>
@@ -15,7 +16,7 @@ export default {};
     display: flex;
     justify-content: space-between;
     margin-top: .8rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     background-color: transparent;
 }
 .contact {
