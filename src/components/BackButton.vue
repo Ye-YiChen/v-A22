@@ -46,7 +46,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .back-btn {
   display: block;
   position: fixed;

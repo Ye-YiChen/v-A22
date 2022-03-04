@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<script>
+<script >
 export default {
   props:['recommends'],
   data() {
@@ -31,7 +31,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .recommand {
   display: flex;
   flex-direction: column;

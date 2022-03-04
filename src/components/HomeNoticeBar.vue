@@ -13,7 +13,7 @@
   </van-notice-bar>
 </template>
 
-<script>
+<script >
 export default {
   props:['notices'],
   data() {
@@ -25,7 +25,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .van-notice-bar {
   margin: 0.5rem 0;
 }

@@ -22,7 +22,7 @@
   </div>
 </template>
 
-<script>
+<script scoped>
 import {mapState,mapMutations} from 'vuex'
 export default {
   data() {

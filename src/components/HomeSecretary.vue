@@ -34,7 +34,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .remind {
   font-family: "iconfont";
   display: flex;

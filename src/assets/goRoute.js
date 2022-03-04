@@ -30,6 +30,9 @@ const minin = {
                     productID
                 }
             });
+        },
+        goBack(){
+            this.$router.back();
         }
     },
 }
