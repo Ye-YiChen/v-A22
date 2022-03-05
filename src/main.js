@@ -20,6 +20,7 @@ import {
   Cell,
   CellGroup,
   Popup,
+  CountDown,
 } from 'vant'
 import '@/assets/fonts/iconfont.css'
 import 'amfe-flexible'
@@ -49,6 +50,7 @@ Vue.use(CollapseItem);
 Vue.use(Cell);
 Vue.use(CellGroup);
 Vue.use(Popup);
+Vue.use(CountDown);
 // axios基本设置
 axios.defaults.baseURL = 'http://'
 axios.defaults.withCredentials = true

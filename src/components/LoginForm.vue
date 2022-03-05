@@ -27,7 +27,12 @@
       <div class="more-action">
         <label for="remember">
           <!-- <van-checkbox name="remember" shape="square" id="remember" icon-size=".426rem">记住密码</van-checkbox> -->
-          <input type="checkbox" name="" id="remember" />
+          <input
+            type="checkbox"
+            name=""
+            id="remember"
+            v-model="ifRememberPwd"
+          />
           <span>记住密码</span>
         </label>
         <a class="find-psw" href="#">找回密码</a>
@@ -45,6 +50,7 @@ export default {
     return {
       account: "",
       pwd: "",
+      ifRememberPwd: false,
     };
   },
   methods: {
@@ -76,13 +82,45 @@ export default {
       })
         .then((response) => {
           if (response.status != 0) this.$toast.fail(response.data.message);
-          else this.$toast.success("登录成功！");
+          else {
+            this.$toast.success("登录成功！");
+            if (this.ifRememberPwd) {
+              this.rememberPwd;
+            }
+            this.goHome();
+          }
         })
         .catch((err) => {
           this.$toast.fail(err.message);
         });
     },
-    
+    rememberPwd() {
+      window.localStorage.setItem(
+        "RememberPwd",
+        JSON.stringify({
+          lastLoginTime: new Date(),
+          account: this.account,
+          pwd: this.pwd,
+        })
+      );
+    },
+  },
+  watch: {
+    ifRememberPwd(newValue) {
+      if (!newValue) {
+        window.localStorage.removeItem("RememberPwd");
+        this.account = null;
+        this.pwd = "";
+      }
+    },
+  },
+  mounted() {
+    let localInfo = JSON.parse(window.localStorage.getItem("RememberPwd"));
+    if (localInfo) {
+      this.ifRememberPwd = true;
+      this.account = localInfo.account;
+      this.pwd = localInfo.pwd;
+    }
   },
 };
 </script>

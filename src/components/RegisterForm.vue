@@ -59,12 +59,26 @@
           class="wide-input"
           v-model="user.otp"
         />
-        <button
-          class="wide-btn abled-btn send-verify"
+        <van-button
+          round
+          type="danger"
+          class="send-verify"
           @click.prevent="sendOTP()"
+          :disabled="ifPressOTP"
+          ref="OTPButton"
         >
-          发送验证码
-        </button>
+          <span v-show="!ifPressOTP">发送验证码</span>
+          <van-count-down
+            v-show="ifPressOTP"
+            :time="OTPtime"
+            ref="countDown"
+            @finish="finish()"
+          >
+            <template #default="timeData">
+              <span class="block"> {{ timeData.seconds | timeSize2}} 秒 </span>
+            </template>
+          </van-count-down>
+        </van-button>
       </label>
       <button class="wide-btn register" @click.prevent="Reigster()">
         立即注册
@@ -91,13 +105,15 @@ export default {
   data() {
     return {
       user: {
-        phoneNumber: null,
+        phoneNumber: 11111111111,
         IDname: "",
         IDnumber: null,
         pwd: "",
         otp: "",
         ifAgree: false,
       },
+      ifPressOTP: false,
+      OTPtime: 10 * 1000, // 在这里设置OTP等待时间 单位ms
     };
   },
   methods: {
@@ -140,17 +156,19 @@ export default {
           otp: this.user.otp,
           password: this.user.pwd,
         },
-      }).then((response) => {
-        if (response.status != 0) {
-          this.$toast.fail(response.data.message);
-        } else {
-          this.$router.push({
-            name: "Login",
-          });
-        }
-      }).catch((err)=>{
+      })
+        .then((response) => {
+          if (response.status != 0) {
+            this.$toast.fail(response.data.message);
+          } else {
+            this.$router.push({
+              name: "Login",
+            });
+          }
+        })
+        .catch((err) => {
           this.$toast.fail(err.message);
-      });
+        });
       return false;
     },
     sendOTP() {
@@ -174,14 +192,48 @@ export default {
         })
         .catch((err) => {
           this.$toast.fail(err.message);
+          // return false
         });
+      this.waitOTP();
     },
-    
+    waitOTP() {
+      this.ifPressOTP = true;
+      this.$refs.countDown.start();
+    },
+    finish() {
+      this.ifPressOTP = false;
+      this.$refs.countDown.reset();
+      this.$refs.countDown.pause();
+    },
+  },
+  mounted() {
+    this.$refs.countDown.pause();
+  },
+  filters: {
+    timeSize2(value) {
+      if (Number(value) < 0) {
+        value = -value;
+      }
+      if (String(value).length < 2) {
+        value = "0" + value;
+      } else if (String(value).length > 2) {
+        value = String(value).substr(0, 2);
+      }
+      return value;
+    },
   },
 };
 </script>
 
 <style scoped>
+.block {
+  display: inline-block;
+  /* width: 22px; */
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  /* background-color: #ee0a24; */
+}
 .logo {
   position: relative;
   /* display: flex;
@@ -266,6 +318,9 @@ export default {
   height: 0.8rem;
   font-size: 0.32rem;
   text-align: center;
+}
+.send-verify span {
+  color: #fff;
 }
 
 .register {

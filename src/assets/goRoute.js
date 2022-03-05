@@ -46,6 +46,11 @@ const minin = {
         },
         goBack(){
             this.$router.back();
+        },
+        goSearch(){
+            this.$router.push({
+                name: "Search",
+            });
         }
     },
 }

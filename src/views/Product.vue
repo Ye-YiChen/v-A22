@@ -71,7 +71,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 .product{
   position: relative;
   min-height: 100%;

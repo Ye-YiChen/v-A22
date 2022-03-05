@@ -12,6 +12,9 @@ import LoginHeader from "../components/LoginHeader.vue";
 import Streamer from '../components/Streamer.vue';
 export default {
   components: { LoginForm, LoginHeader, Streamer },
+  mounted() {
+    document.title='登录页面'
+  },
 };
 </script>
 

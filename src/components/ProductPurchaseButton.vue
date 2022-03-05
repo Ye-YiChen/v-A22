@@ -1,34 +1,80 @@
 <template>
   <footer class="footer" id="footer">
     <div class="state">
-      <div class="min-logo"><img src="../../public/images/ico.png" alt="" /></div>
+      <div class="min-logo">
+        <img src="../../public/images/ico.png" alt="" />
+      </div>
       <!-- 最长 "剩余10,00000000份" 可正常显示 -->
-      <div class="pro-left">剩余{{  }}份</div>
+      <div class="pro-left">剩余{{}}份</div>
       <div class="time-box red">
         <div class="arrow-left"></div>
         <div class="time-title red" ref="countTitle">本次秒杀开始还剩</div>
         <div class="time-left">
-          <div id="time-h">{{  }}</div>
-          :
-          <div id="time-m">{{  }}</div>
-          :
-          <div id="time-s">{{  }}</div>
+          <van-count-down millisecond :time="time">
+            <template #default="timeData">
+              <span class="block">{{ timeData.hours | timeSize2 }}</span>
+              <span class="colon">:</span>
+              <span class="block">{{ timeData.minutes | timeSize2 }}</span>
+              <span class="colon">:</span>
+              <span class="block">{{ timeData.seconds | timeSize2 }}</span>
+              <span class="colon">:</span>
+              <span class="block">{{ timeData.milliseconds | timeSize2 }}</span>
+            </template>
+          </van-count-down>
         </div>
       </div>
     </div>
-    <button class="wide-btn scheduled-btn" ref="btn" @click.once="press()">
+    <button class="wide-btn scheduled-btn" ref="btn" @click.once="purchase()">
       即将开始
     </button>
   </footer>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      time: 30 * 60 * 60 * 1000,
+    };
+  },
+  methods: {
+    purchase(){
+      
+    }
+  },
+  filters: {
+    timeSize2(value) {
+      if(Number(value)<0){
+        value=-value
+      }
+      if (String(value).length < 2) {
+        value = "0" + value;
+      }else if(String(value).length >2){
+        value = String(value).substr(0,2)
+      }
+      return value;
+    },
+  },
+};
 </script>
 
 <style scoped>
+.colon {
+  display: inline-block;
+  margin: 0 4px;
+  color: #ee0a24;
+}
+.block {
+  display: inline-block;
+  width: 22px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  background-color: #ee0a24;
+}
 .footer {
-  position:fixed;
+  position: fixed;
   width: 100%;
   /* height: 2.9333rem; */
   bottom: 0;

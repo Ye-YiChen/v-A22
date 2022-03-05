@@ -114,6 +114,7 @@ export default {
     };
   },
   mounted() {
+    document.title='主页面'
     // 获取贷款列表
     this.axios({
       method: "get",
@@ -165,7 +166,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .noads {
   display: flex;
   flex-direction: column;
@@ -176,5 +177,12 @@ export default {
 }
 .main {
   padding: 0 0.4rem;
+}
+.re-ico {
+  font-family: "iconfont";
+  color: #eb8108;
+  font-weight: 700;
+  font-size: 0.6rem;
+  margin-right: 0.2rem;
 }
 </style>

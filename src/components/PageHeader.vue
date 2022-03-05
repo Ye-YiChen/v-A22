@@ -5,7 +5,7 @@
       <slot></slot>
       </div>
     <div class="icos">
-      <div class="search">&#xe60b;</div>
+      <div class="search" @click="goSearch()">&#xe60b;</div>
       <div class="service">&#xe65f;</div>
     </div>
   </header>

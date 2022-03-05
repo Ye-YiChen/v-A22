@@ -13,6 +13,9 @@ import RegisterForm from '../components/RegisterForm.vue';
 import Streamer from "../components/Streamer.vue";
 export default {
   components: { LoginHeader, Streamer, RegisterForm },
+  mounted() {
+    document.title='注册页面'
+  },
 };
 </script>
 

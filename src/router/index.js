@@ -1,20 +1,35 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/Login.vue'
-import Register from '../views/Register.vue'
+// import Login from '../views/Login.vue'
+// import Register from '../views/Register.vue'
 import Home from '../views/Home.vue'
-import Market from '../views/Market.vue'
-import Order from '../views/Order.vue'
-import Product from '../views/Product.vue'
-import Detail from '../views/Detail.vue'
-import Purchase from '../views/Purchase.vue'
+// import Market from '../views/Market.vue'
+// import Order from '../views/Order.vue'
+// import Product from '../views/Product.vue'
+// import Detail from '../views/Detail.vue'
+// import Purchase from '../views/Purchase.vue'
+// import Search from '../views/SearchPage.vue'
+
+// 路由懒加载
+const Login = () => import('../views/Login.vue')
+const Register =() => import('../views/Register.vue')
+const Market = () => import('../views/Market.vue')
+const Order  = () => import('../views/Order.vue')
+const Product = () => import('../views/Product.vue')
+const Detail = () => import('../views/Detail.vue')
+const Purchase =()=>import('../views/Purchase.vue')
+const Search = () => import('../views/SearchPage.vue')
+
+
+
+
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
     // 重定向到login页面
-    redirect: '/purchase/001'
+    redirect: 'Login'
   },
   {
     path: '/login',
@@ -25,10 +40,6 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register,
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    // component: () => import(/* webpackChunkName: "about" */ '../views/Home.vue')
   },
   {
     path: '/home',
@@ -60,6 +71,11 @@ const routes = [
     name: 'Detail',
     component: Detail
   },
+  {
+    path:'/search',
+    name:'Search',
+    component:Search
+  }
 ]
 
 const router = new VueRouter({
