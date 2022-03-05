@@ -1,6 +1,6 @@
 <template>
   <div class="pro-info">
-    <div class="pro-name">{{ '易方达' }}</div>
+    <div class="pro-name">{{ product.name }}</div>
     <div class="pro-type">人民币理财产品</div>
     <div class="label-box">
       <ul>
@@ -10,11 +10,11 @@
     </div>
     <div class="parameter-box">
       <div class="pro-parameter">
-        <div class="parameter-num">{{ '3.3' }}%</div>
+        <div class="parameter-num">{{ product.num }}%</div>
         <div class="parameter-info">年化利率</div>
       </div>
       <div class="pro-parameter">
-        <div class="parameter-num">{{ '180'}}</div>
+        <div class="parameter-num">{{ product.term}}天</div>
         <div class="parameter-info">产品期限</div>
       </div>
     </div>
@@ -26,7 +26,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props:['product']
+};
 </script>
 
 <style scoped>

@@ -5,12 +5,17 @@
         <img src="../../public/images/ico.png" alt="" />
       </div>
       <!-- 最长 "剩余10,00000000份" 可正常显示 -->
-      <div class="pro-left">剩余{{}}份</div>
+      <div class="pro-left">剩余{{ localProduct.stock - localProduct.sales }}份</div>
       <div class="time-box red">
         <div class="arrow-left"></div>
         <div class="time-title red" ref="countTitle">本次秒杀开始还剩</div>
         <div class="time-left">
-          <van-count-down millisecond :time="time">
+          <van-count-down
+            millisecond
+            :time="time"
+            ref="countDown"
+            @finish="finish()"
+          >
             <template #default="timeData">
               <span class="block">{{ timeData.hours | timeSize2 }}</span>
               <span class="colon">:</span>
@@ -32,25 +37,93 @@
 
 <script>
 export default {
+  props: ["product"],
   data() {
     return {
-      time: 30 * 60 * 60 * 1000,
+      localProduct:null,
+      state: null,
+      time: null,
+      timer: null,
     };
   },
   methods: {
-    purchase(){
-      
-    }
+    purchase() {
+      if(this.state==0){
+        this.$toast.fail('尚未开始')
+        return false
+      }else if(this.state==1){
+        this.goPurchase(this.$route.params.productID)
+        return false
+      }
+      else {
+        return false
+      }
+    },
+    finish() {
+      if (this.state == 0) {
+        this.time = new Date() - this.product.startTime;
+      } else if (this.state == 1) {
+        this.time = new Date() - this.product.endTime;
+      } else {
+        this.time = 0;
+        this.$refs.countDown.pause();
+        clearInterval(this.timer)
+      }
+      this.state += 1;
+    },
+    queryProduct() {
+      this.axios({
+        method: "get",
+        url: "/item/detail/" + this.$route.params.productID,
+      })
+        .then((response) => {
+          if (response.status != 0) {
+            this.$toast.fail(response.data.message);
+          } else {
+            this.products = response.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.fail(err.message);
+        });
+    },
+  },
+  mounted() {
+    this.state = this.product.state;
+    this.localProduct=this.product
+  },
+  watch: {
+    state(newValue) {
+      if (newValue == 0) {
+        this.$refs.btn.innerText = "即将开始";
+        this.$refs.countTitle.innerText = "本次秒杀开始还剩";
+        return false;
+      }
+      if (newValue == 1) {
+        this.$refs.btn.innerText = "立即购买";
+        this.$refs.countTitle.innerText = "本次秒杀结束还剩";
+        this.timer = setInterval(() => {
+          this.queryProduct();
+        }, 1000);
+        return false;
+      }
+      if (newValue == 2) {
+        this.$refs.btn.innerText = "售罄";
+        this.$refs.countTitle.innerText = "本次秒杀已经结束";
+        clearInterval(this.timer)
+        return false;
+      }
+    },
   },
   filters: {
     timeSize2(value) {
-      if(Number(value)<0){
-        value=-value
+      if (Number(value) < 0) {
+        value = -value;
       }
       if (String(value).length < 2) {
         value = "0" + value;
-      }else if(String(value).length >2){
-        value = String(value).substr(0,2)
+      } else if (String(value).length > 2) {
+        value = String(value).substr(0, 2);
       }
       return value;
     },

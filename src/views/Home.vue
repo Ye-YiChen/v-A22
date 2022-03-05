@@ -129,6 +129,7 @@ export default {
       })
       .catch((err) => {
         this.$toast.fail(err.message);
+        return false
       });
 
     //获取存款列表

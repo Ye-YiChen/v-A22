@@ -83,6 +83,7 @@ export default {
         .then((response) => {
           if (response.status != 0) this.$toast.fail(response.data.message);
           else {
+            window.localStorage.setItem('token',response.data)
             this.$toast.success("登录成功！");
             if (this.ifRememberPwd) {
               this.rememberPwd;
@@ -92,6 +93,7 @@ export default {
         })
         .catch((err) => {
           this.$toast.fail(err.message);
+          return false
         });
     },
     rememberPwd() {

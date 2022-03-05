@@ -21,6 +21,7 @@ import {
   CellGroup,
   Popup,
   CountDown,
+  Image as VanImage
 } from 'vant'
 import '@/assets/fonts/iconfont.css'
 import 'amfe-flexible'
@@ -51,8 +52,9 @@ Vue.use(Cell);
 Vue.use(CellGroup);
 Vue.use(Popup);
 Vue.use(CountDown);
+Vue.use(VanImage);
 // axios基本设置
-axios.defaults.baseURL = 'http://'
+axios.defaults.baseURL = 'http://47.113.180.139:90'
 axios.defaults.withCredentials = true
 
 new Vue({

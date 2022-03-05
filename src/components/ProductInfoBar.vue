@@ -1,16 +1,18 @@
 <template>
   <div class="short-info">
     <div class="small-ico red">&#xe651;</div>
-    <div class="risk green">{{}}</div>
+    <div class="risk green">{{product.risk}}</div>
     |
-    <div class="per-money yellow">单份{{}}元</div>
+    <div class="per-money yellow">单份{{product.price}}元</div>
     |
-    <div class="total-num">总额{{}}份</div>
+    <div class="total-num">总额{{product.stock}}份</div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props:['product']
+};
 </script>
 
 <style>
