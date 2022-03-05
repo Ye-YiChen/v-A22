@@ -16,6 +16,28 @@ const userAbout = {
     }
   }
 }
+const orderAbout = {
+  namespaced: true, // 开启命名空间
+  state: {
+    orderNum: null,
+    ifAgree :false,
+    productInfo:{}
+  },
+  mutations: {
+    SET_ORDER_NUM(state,value) {
+      state.orderNum = value
+      return false
+    },
+    SET_IF_AGREE(state,value) {
+      state.ifAgree = value
+      return false
+    },
+    SET_PRODUCT_INFO(state,value) {
+      state.productInfo = value
+      return false
+    }
+  }
+}
 export default new Vuex.Store({
   state: {
   },
@@ -24,7 +46,8 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    userAbout
+    userAbout,
+    orderAbout
   },
   getters: {
 

@@ -23,34 +23,58 @@ const minin = {
                 name: "Register",
             });
         },
-        goProduct(productID){
+        goProduct(productID) {
             this.$router.push({
                 name: "Product",
-                params:{
+                params: {
                     productID
                 }
             });
         },
-        goHome(){
+        goHome() {
             this.$router.push({
                 name: "Home",
             });
         },
-        goDetail(orderID){
+        goDetail(orderID) {
             this.$router.push({
                 name: "Detail",
-                params:{
+                params: {
                     orderID
                 }
             });
         },
-        goBack(){
+        goBack() {
             this.$router.back();
         },
-        goSearch(){
+        goSearch() {
             this.$router.push({
                 name: "Search",
             });
+        },
+        async isLogin() {
+            await this.axios({
+                method: 'get',
+                url: "/user/status?token=" + window.localStorage.getItem("token"),
+            }).then((response) => {
+                if (response.status != 0) {
+                    // 服务器异常错误
+                    this.$toast.fail(response.data.message)
+                    return false
+                } else if (response.data == null) {
+                    // 未登录
+                    this.$toast.fail('请先登录!')
+                    this.goLogin()
+                    return false
+                } else {
+                    // 登录成功
+                    this.$store.commit('userAbout/SET_UERNAME', response.data.name)
+                    return false
+                }
+            }).catch((err) => {
+                this.$toast.fail(err.message)
+                return false
+            })
         }
     },
 }

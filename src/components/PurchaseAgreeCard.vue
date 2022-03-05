@@ -15,19 +15,42 @@
       <li>《投资者权益须知》</li>
     </ul>
     <div class="mind item">
-      风险提示声明：本人已阅读并同意理财产品购买声明、产品投资协议、代理销售协议、风险揭示书、产品说明书、投资者权益须知和全部内容、愿意承担投资风险。
+      {{ agreeWords }}
     </div>
-    <div class="tip red">&#xe656; 复制并粘贴</div>
-    <textarea class="type" placeholder="请完整输入上述风险提示声明"></textarea>
+    <div class="tip red" @click="copyAgree()">&#xe656; 复制并粘贴</div>
+    <textarea
+      class="type"
+      placeholder="请完整输入上述风险提示声明"
+      ref="typeIn"
+      @change="checkAgree()"
+    ></textarea>
   </div>
 </template>
 
 <script>
-export default {};
+import { mapMutations } from "vuex";
+export default {
+  data() {
+    return {
+      agreeWords:
+        "风险提示声明：本人已阅读并同意理财产品购买声明、产品投资协议、代理销售协议、风险揭示书、产品说明书、投资者权益须知和全部内容、愿意承担投资风险。",
+    };
+  },
+  methods: {
+    copyAgree() {
+      this.$refs.typeIn.innerText = this.agreeWords;
+    },
+    checkAgree() {
+      if (this.$refs.typeIn.innerText() == this.agreeWords) {
+        this.SET_IF_AGREE(true)
+      }
+    },
+    ...mapMutations("orderAbout", ["SET_IF_AGREE"]),
+  },
+};
 </script>
 
 <style>
-
 .agree-detail {
   font-size: 0.2rem;
   padding: 0.2rem 0;

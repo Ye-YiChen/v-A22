@@ -17,7 +17,7 @@
     <div class="hello">
       <div class="time">早上好!</div>
       <div class="user" @click="goLogin()">{{ userName || "登录/注册" }}</div>
-      <div class="logout-btn" @click="logOut()">退出登录</div>
+      <div class="logout-btn" @click="logOut()" v-if="userName">退出登录</div>
     </div>
   </div>
 </template>

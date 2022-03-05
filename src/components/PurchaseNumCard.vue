@@ -12,23 +12,39 @@
     </div>
     <div class="fade tip">
       <div>总价</div>
-      <div class="extra-money">0.00元</div>
+      <div class="extra-money">
+        {{ Number(productInfo.price * purchaseNum || 0.00).toFixed(2)}}元
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
       purchaseNum: null,
     };
   },
+  computed: {
+    ...mapState("orderAbout", ["productInfo"]),
+  },
+  methods: {
+    ...mapMutations("orderAbout", ["SET_ORDER_NUM"]),
+  },
+  watch: {
+    purchaseNum(newValue) {
+      if (newValue <= 0) {
+        this.purchaseNum = null;
+      }
+      this.SET_ORDER_NUM(newValue);
+    },
+  },
 };
 </script>
 
 <style scoped>
-
 .num-box {
   justify-content: start;
   align-items: center;

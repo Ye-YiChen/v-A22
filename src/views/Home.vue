@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" v-cloak>
     <home-header />
     <home-select />
     <div class="main">
@@ -31,6 +31,7 @@ import HomeRecommendCard from "../components/HomeRecommendCard.vue";
 import HomeSelect from "../components/HomeSelect.vue";
 import HomeSwiper from "../components/HomeSwiper.vue";
 import HomeSecretary from "../components/HomeSecretary.vue";
+import { mapState } from 'vuex';
 export default {
   components: {
     HomeHeader,
@@ -113,6 +114,9 @@ export default {
       },
     };
   },
+  computed:{
+    ...mapState('userAbout',['userName'])
+  },
   mounted() {
     document.title='主页面'
     // 获取贷款列表
@@ -131,7 +135,6 @@ export default {
         this.$toast.fail(err.message);
         return false
       });
-
     //获取存款列表
     this.axios({
       method: "get",

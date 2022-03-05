@@ -1,5 +1,5 @@
 <template>
-  <div class="register">
+  <div class="register" v-cloak>
     <login-header>欢迎注册</login-header>
     <register-form/>
     <streamer />

@@ -1,5 +1,5 @@
 <template>
-  <div class="market">
+  <div class="market" v-cloak>
     <page-header>
       <span>{{ pageType | pageName }}</span>
     </page-header>
@@ -35,6 +35,13 @@ export default {
   },
   mounted() {
     this.pageType = this.$route.params.type;
+    if(this.pageType == 'loan'){
+      document.title='贷款超市'
+    }else if(this.pageType == 'store'){
+      document.title='存款超市'
+    }else{
+      document.title='商品超市'
+    }
     this.axios({
       method: "get",
       url: "",

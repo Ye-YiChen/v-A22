@@ -5,7 +5,9 @@
         <img src="../../public/images/ico.png" alt="" />
       </div>
       <!-- 最长 "剩余10,00000000份" 可正常显示 -->
-      <div class="pro-left">剩余{{ localProduct.stock - localProduct.sales }}份</div>
+      <div class="pro-left">
+        剩余{{ localProduct.stock - localProduct.sales }}份
+      </div>
       <div class="time-box red">
         <div class="arrow-left"></div>
         <div class="time-title red" ref="countTitle">本次秒杀开始还剩</div>
@@ -17,7 +19,9 @@
             @finish="finish()"
           >
             <template #default="timeData">
-              <span class="block">{{ timeData.hours | timeSize2 }}</span>
+              <span class="block">{{
+                timeData.hours + timeData.days * 24 || "00"
+              }}</span>
               <span class="colon">:</span>
               <span class="block">{{ timeData.minutes | timeSize2 }}</span>
               <span class="colon">:</span>
@@ -37,39 +41,52 @@
 
 <script>
 export default {
-  props: ["product"],
+  // props: ["product"],
   data() {
     return {
-      localProduct:null,
-      state: null,
+      localProduct: {
+        id: 1,
+        name: "易方达",
+        num: 3.33,
+        info: "近一年增长率",
+        intro: "6个月定期存款",
+        price: 100000.0,
+        sales: 666,
+        limited: 10,
+        stock: 994,
+        term: 180,
+        risk: "中风险",
+        startTime: "2022-04-09T16:00:00.000+00:00",
+        endTime: "2026-08-15T06:28:00.000+00:00",
+        numTime: "2022-04-01T11:17:16.000+00:00",
+        state: 0,
+        status: null,
+      },
+      state: -100,
       time: null,
       timer: null,
+      ifFirst:true
     };
   },
   methods: {
     purchase() {
-      if(this.state==0){
-        this.$toast.fail('尚未开始')
-        return false
-      }else if(this.state==1){
-        this.goPurchase(this.$route.params.productID)
-        return false
-      }
-      else {
-        return false
+      if (this.state == 0) {
+        this.$toast.fail("尚未开始");
+        return false;
+      } else if (this.state == 1) {
+        this.goPurchase(this.$route.params.productID);
+        return false;
+      } else {
+        return false;
       }
     },
     finish() {
-      if (this.state == 0) {
-        this.time = new Date() - this.product.startTime;
-      } else if (this.state == 1) {
-        this.time = new Date() - this.product.endTime;
-      } else {
-        this.time = 0;
-        this.$refs.countDown.pause();
-        clearInterval(this.timer)
+      console.log('f');
+      if(!this.ifFirst){
+        this.state++
+      }else{
+        this.ifFirst=!this.ifFirst
       }
-      this.state += 1;
     },
     queryProduct() {
       this.axios({
@@ -89,30 +106,37 @@ export default {
     },
   },
   mounted() {
-    this.state = this.product.state;
-    this.localProduct=this.product
+    this.localProduct = this.product;
+    this.state = this.localProduct.state;
   },
   watch: {
-    state(newValue) {
-      if (newValue == 0) {
-        this.$refs.btn.innerText = "即将开始";
-        this.$refs.countTitle.innerText = "本次秒杀开始还剩";
-        return false;
-      }
-      if (newValue == 1) {
-        this.$refs.btn.innerText = "立即购买";
-        this.$refs.countTitle.innerText = "本次秒杀结束还剩";
-        this.timer = setInterval(() => {
-          this.queryProduct();
-        }, 1000);
-        return false;
-      }
-      if (newValue == 2) {
-        this.$refs.btn.innerText = "售罄";
-        this.$refs.countTitle.innerText = "本次秒杀已经结束";
-        clearInterval(this.timer)
-        return false;
-      }
+    state: {
+      immediate:true,
+      handler(newValue) {
+        if (newValue == 0) {
+          this.$refs.btn.innerText = "即将开始";
+          this.$refs.countTitle.innerText = "本次秒杀开始还剩";
+          this.time = new Date(this.localProduct.startTime) - new Date();
+          return false;
+        }
+        if (newValue == 1) {
+          this.$refs.btn.innerText = "立即购买";
+          this.$refs.countTitle.innerText = "本次秒杀结束还剩";
+          this.time = new Date(this.localProduct.endTime) - new Date();
+          this.timer = setInterval(() => {
+            this.queryProduct();
+          }, 1000);
+          return false;
+        }
+        if (newValue == 2) {
+          this.$refs.btn.innerText = "售罄";
+          this.$refs.countTitle.innerText = "本次秒杀已经结束";
+          this.time = 0;
+          this.$refs.countDown.pause();
+          clearInterval(this.timer);
+          return false;
+        }
+      },
     },
   },
   filters: {
@@ -139,7 +163,8 @@ export default {
 }
 .block {
   display: inline-block;
-  width: 22px;
+  /* width: 22px; */
+  padding: 0 2px;
   border-radius: 4px;
   color: #fff;
   font-size: 12px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="detail">
+  <div class="detail" v-cloak>
     <page-header><span>订单详情</span></page-header>
     <detail-logo-pic />
     <detail-card />
@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       orderID: "",
-      orderInfos: "",
+      orderInfo: "",
     };
   },
   components: {
@@ -34,9 +34,9 @@ export default {
     BackHomeButton,
   },
   mounted() {
+    document.title='订单详情页面'
+    this.isLogin()
     this.orderID = this.$route.params.orderID;
-    console.log(this.orderID);
-
     this.axios({
       method: "get",
       url: "/order/detail/" + this.orderID,
@@ -45,7 +45,7 @@ export default {
         if (response.status != 0) {
           this.$toast.fail(response.data.message);
         } else {
-          this.item = response.data;
+          this.orderInfo = response.data;
         }
       })
       .catch((err) => {

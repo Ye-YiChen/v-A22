@@ -1,31 +1,39 @@
 <template>
-  <div class="purchase">
+  <div class="purchase" v-cloak>
     <page-header>支付订单</page-header>
-    <van-cell-group class="fix" >
+    <van-cell-group class="fix">
       <van-cell title="产品名称" value="内容XXXX" />
-      <van-cell title="交易账户" value="6288****7077" label="可用金额99.99元"/>
+      <van-cell title="交易账户" value="6288****7077" label="可用金额99.99元" />
     </van-cell-group>
     <van-cell-group class="fix">
       <van-cell title="可购金额" value="剩余10000份" />
       <van-cell title="单笔金额" value="10000元" />
     </van-cell-group>
     <purchase-num-card />
-    <purchase-agree-card/>
-    <purchase-bottom-buttom/>
+    <purchase-agree-card />
+    <purchase-bottom-buttom />
   </div>
 </template>
 
 <script>
 import PageHeader from "../components/PageHeader.vue";
-import PurchaseAgreeCard from '../components/PurchaseAgreeCard.vue';
-import PurchaseBottomButtom from '../components/PurchaseBottomButtom.vue';
+import PurchaseAgreeCard from "../components/PurchaseAgreeCard.vue";
+import PurchaseBottomButtom from "../components/PurchaseBottomButtom.vue";
 import PurchaseNumCard from "../components/PurchaseNumCard.vue";
 export default {
-  components: { PageHeader, PurchaseNumCard, PurchaseAgreeCard, PurchaseBottomButtom },
+  components: {
+    PageHeader,
+    PurchaseNumCard,
+    PurchaseAgreeCard,
+    PurchaseBottomButtom,
+  },
   data() {
     return {};
   },
-  mounted() {},
+  mounted() {
+    document.title = "购买页面";
+    this.isLogin();
+  },
 };
 </script>
 

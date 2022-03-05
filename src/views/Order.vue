@@ -1,5 +1,5 @@
 <template>
-  <div class="order">
+  <div class="order" v-cloak>
     <page-header>
       <span>全部订单</span>
     </page-header>
@@ -29,13 +29,13 @@
       >
     </van-empty>
 
-    <back-button/>
+    <back-button />
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import BackButton from '../components/BackButton.vue';
+import BackButton from "../components/BackButton.vue";
 import OrderCard from "../components/OrderCard.vue";
 import PageHeader from "../components/PageHeader.vue";
 
@@ -52,6 +52,8 @@ export default {
     ...mapState("userAbout", ["userName"]),
   },
   mounted() {
+    document.title = "我的订单";
+    this.isLogin();
     this.axios({
       method: "get",
       url: "/order/list?token=" + window.localStorage.getItem("token"),

@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 import PageHeader from "../components/PageHeader.vue";
 import ProductInfoBar from "../components/ProductInfoBar.vue";
 import ProductPurchaseButton from "../components/ProductPurchaseButton.vue";
@@ -77,10 +78,11 @@ export default {
       show: false,
       popupText: "",
       product: {},
-      state: -1,
     };
   },
   mounted() {
+    document.title = "产品详情";
+    // 获取产品信息
     this.axios({
       method: "get",
       url: "/item/detail/" + this.$route.params.productID,
@@ -94,13 +96,17 @@ export default {
       })
       .catch((err) => {
         this.$toast.fail(err.message);
+        return false;
       });
+
+    this.SET_PRODUCT_INFO = this.product;
   },
   methods: {
     showPopup(text) {
       this.show = true;
       this.popupText = text;
     },
+    ...mapMutations("orderAbout", ["SET_PRODUCT_INFO"]),
   },
 };
 </script>
