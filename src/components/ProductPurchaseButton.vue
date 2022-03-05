@@ -94,10 +94,10 @@ export default {
         url: "/item/detail/" + this.$route.params.productID,
       })
         .then((response) => {
-          if (response.status != 0) {
-            this.$toast.fail(response.data.message);
+          if (response.data.status != 0) {
+            this.$toast.fail(response.data.data.message);
           } else {
-            this.products = response.data;
+            this.products = response.data.data;
           }
         })
         .catch((err) => {

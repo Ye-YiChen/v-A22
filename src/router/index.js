@@ -29,7 +29,7 @@ const routes = [
   {
     path: '/',
     // 重定向到login页面
-    redirect: 'search'
+    redirect: '/home'
   },
   {
     path: '/login',

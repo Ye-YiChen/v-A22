@@ -42,10 +42,10 @@ export default {
       url: "/order/detail/" + this.orderID,
     })
       .then((response) => {
-        if (response.status != 0) {
-          this.$toast.fail(response.data.message);
+        if (response.data.status != 0) {
+          this.$toast.fail(response.data.data.message);
         } else {
-          this.orderInfo = response.data;
+          this.orderInfo = response.data.data;
         }
       })
       .catch((err) => {

@@ -7,11 +7,11 @@
       <home-recommend-card :recommends="stores" />
       <home-notice-bar :notices="notices" />
       <div class="noads">
-        <home-ad-card :ads="loans" type="loan">
+        <home-ad-card :ads="loans.slice(0,3)" type="loan">
           <template v-slot:icon><span class="re-ico">&#xe63e;</span></template>
           <template v-slot:cardName><span>精选贷款</span></template>
         </home-ad-card>
-        <home-ad-card :ads="stores" type="store">
+        <home-ad-card :ads="stores.slice(0,3)" type="store">
           <template v-slot:icon><span class="re-ico">&#xe6aa;</span></template>
           <template v-slot:cardName><span>精选存款</span></template>
         </home-ad-card>
@@ -103,7 +103,7 @@ export default {
         },
         {
           info: "这里是一条可以很长的消息3",
-          id: 33,
+          id: 3,
         },
       ],
       userInfo: {
@@ -125,10 +125,11 @@ export default {
       url: "/item/loan/list",
     })
       .then((response) => {
-        if (response.status != 0) {
-          this.$toast.fail(response.data.message);
+        if (response.data.status != 0) {
+          console.log(response);
+          this.$toast.fail(response.data.data.message);
         } else {
-          this.loans = response.data;
+          this.loans = response.data.data;
         }
       })
       .catch((err) => {
@@ -141,10 +142,10 @@ export default {
       url: "/item/deposit/list",
     })
       .then((response) => {
-        if (response.status != 0) {
-          this.$toast.fail(response.data.message);
+        if (response.data.status != 0) {
+          this.$toast.fail(response.data.data.message);
         } else {
-          this.stores = response.data;
+          this.stores = response.data.data;
         }
       })
       .catch((err) => {
@@ -157,10 +158,10 @@ export default {
       url: "/item/news",
     })
       .then((response) => {
-        if (response.status != 0) {
-          this.$toast.fail(response.data.message);
+        if (response.data.status != 0) {
+          this.$toast.fail(response.data.data.message);
         } else {
-          this.notices = response.data;
+          this.notices = response.data.data;
         }
       })
       .catch((err) => {
@@ -178,6 +179,8 @@ export default {
   font-size: 0.4267rem;
   letter-spacing: 0.0533rem;
   z-index: 10;
+  width: 100%;
+  overflow: hidden;
 }
 .main {
   padding: 0 0.4rem;

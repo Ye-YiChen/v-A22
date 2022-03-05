@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-cloak>
     <router-view />
   </div>
 </template>
@@ -54,10 +54,6 @@ ul {
 
 li {
   list-style: none;
-}
-
-[v-cloak] {
-  display: none;
 }
 
 .wide-btn {

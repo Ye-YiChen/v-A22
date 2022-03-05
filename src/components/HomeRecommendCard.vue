@@ -6,7 +6,7 @@
       <span class="change" @click="changeRecommend()">换一批 &#xe636;</span>
     </div>
     <div class="recommand-main">
-      <div class="recommand-box" v-for="(recommend) in recommends" :key="recommend.id">
+      <div class="recommand-box" v-for="(recommend) in localRecommends.slice(3*turn,3*turn+3)" :key="recommend.id">
         <div class="re-name">{{recommend.name}}</div>
         <div class="re-num">{{recommend.num}}%</div>
         <div class="re-info">{{recommend.info}}</div>
@@ -20,13 +20,20 @@ export default {
   props:['recommends'],
   data() {
     return {
+      localRecommends:[],
+      turn:0,
     };
   },
   methods: {
-    changeRecommend() {},
+    changeRecommend() {
+      this.turn++
+      if(this.turn*3>this.localRecommends.length){
+        this.turn =0
+      }
+    },
   },
   mounted() {
- 
+    this.localRecommends=this.recommends
  },
 };
 </script>

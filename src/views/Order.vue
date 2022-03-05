@@ -58,10 +58,10 @@ export default {
       method: "get",
       url: "/order/list?token=" + window.localStorage.getItem("token"),
     }).then((response) => {
-      if (response.status != 0) {
-        this.$toast.fail(response.data.message);
+      if (response.data.status != 0) {
+        this.$toast.fail(response.data.data.message);
       } else {
-        this.orders = response.data;
+        this.orders = response.data.data;
       }
     });
   },

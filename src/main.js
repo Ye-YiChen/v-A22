@@ -22,7 +22,8 @@ import {
   Popup,
   CountDown,
   Image as VanImage,
-  Search
+  Search,
+  Icon
 } from 'vant'
 import '@/assets/fonts/iconfont.css'
 import 'amfe-flexible'
@@ -55,8 +56,11 @@ Vue.use(Popup);
 Vue.use(CountDown);
 Vue.use(VanImage);
 Vue.use(Search);
+Vue.use(Icon);
 // axios基本设置
-axios.defaults.baseURL = 'http://47.113.180.139:90'
+// axios.defaults.baseURL = 'http://47.113.180.139:90'
+// 代理服务器 请求本地
+axios.defaults.baseURL ='http://10.254.94.73:8080/'
 axios.defaults.withCredentials = true
 
 new Vue({

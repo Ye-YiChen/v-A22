@@ -40,11 +40,11 @@ export default {
         },
       })
         .then((response) => {
-          if (response.status != 0) {
-            this.$toast.fail(response.data.message);
+          if (response.data.status != 0) {
+            this.$toast.fail(response.data.data.message);
           } else {
             this.$toast.success("购买成功");
-            this.goDetail(response.data.id);
+            this.goDetail(response.data.data.id);
           }
         })
         .catch((err) => {

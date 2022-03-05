@@ -158,8 +158,8 @@ export default {
         },
       })
         .then((response) => {
-          if (response.status != 0) {
-            this.$toast.fail(response.data.message);
+          if (response.data.status != 0) {
+            this.$toast.fail(response.data.data.message);
           } else {
             this.$router.push({
               name: "Login",
@@ -184,7 +184,7 @@ export default {
         url: "/user/otp/" + this.user.phoneNumber,
       })
         .then((response) => {
-          if (response.status != 0) this.$toast.fail(response.data.message);
+          if (response.data.status != 0) this.$toast.fail(response.data.data.message);
           else {
             this.$toast.success("发送成功！");
           }

@@ -40,8 +40,8 @@ export default {
         url: "",
       })
         .then((response) => {
-          if (response.status != 0) {
-            this.$toast.fail(response.data.message);
+          if (response.data.status != 0) {
+            this.$toast.fail(response.data.data.message);
           } else {
             this.$router.push({
               name: "Login",
@@ -61,10 +61,10 @@ export default {
       url: "/user/status",
     })
       .then((response) => {
-        if (response.status != 0) {
-          this.$toast.fail(response.data.message);
+        if (response.data.status != 0) {
+          this.$toast.fail(response.data.data.message);
         } else {
-          this.userName = response.result.data.name;
+          this.userName = response.data.data.name;
         }
       })
       .catch((err) => {

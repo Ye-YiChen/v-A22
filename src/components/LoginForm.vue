@@ -29,7 +29,6 @@
           <!-- <van-checkbox name="remember" shape="square" id="remember" icon-size=".426rem">记住密码</van-checkbox> -->
           <input
             type="checkbox"
-            name=""
             id="remember"
             v-model="ifRememberPwd"
           />
@@ -81,9 +80,10 @@ export default {
         },
       })
         .then((response) => {
-          if (response.status != 0) this.$toast.fail(response.data.message);
+          if (response.data.status != 0)
+            this.$toast.fail(response.data.data.message);
           else {
-            window.localStorage.setItem('token',response.data)
+            window.localStorage.setItem("token", response.data.data);
             this.$toast.success("登录成功！");
             if (this.ifRememberPwd) {
               this.rememberPwd;
@@ -93,7 +93,7 @@ export default {
         })
         .catch((err) => {
           this.$toast.fail(err.message);
-          return false
+          return false;
         });
     },
     rememberPwd() {
@@ -118,7 +118,7 @@ export default {
   },
   mounted() {
     let localInfo = JSON.parse(window.localStorage.getItem("RememberPwd"));
-    if (localInfo) {
+    if (localInfo && new Date() - localInfo.lastLoginTime <= 24 * 7 * 3600) {
       this.ifRememberPwd = true;
       this.account = localInfo.account;
       this.pwd = localInfo.pwd;
