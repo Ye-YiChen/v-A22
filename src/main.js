@@ -60,7 +60,7 @@ Vue.use(Icon);
 // axios基本设置
 // axios.defaults.baseURL = 'http://47.113.180.139:90'
 // 代理服务器 请求本地
-axios.defaults.baseURL ='http://10.254.94.73:8080/'
+axios.defaults.baseURL ='http://localhost:8080/'
 axios.defaults.withCredentials = true
 
 new Vue({

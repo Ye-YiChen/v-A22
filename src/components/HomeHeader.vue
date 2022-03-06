@@ -5,7 +5,7 @@
         ><img src="../../public/images/ico-a.png" alt=""
       /></a>
     </div>
-    <div class="search-bar">
+    <div class="search-bar" @click="goSearch()">
       <div class="search-ico">&#xe60b;</div>
       <input
         type="text"

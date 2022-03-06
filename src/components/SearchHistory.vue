@@ -1,5 +1,5 @@
 <template>
-  <div class="search-history">
+  <div class="search-history" v-if="localHistories.length">
     <van-cell-group>
       <van-cell title="历史记录" value="" class="big-words">
         <!-- 使用 right-icon 插槽来自定义右侧图标 -->

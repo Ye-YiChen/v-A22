@@ -15,16 +15,16 @@
       <span>以上产品利率仅供参考，请您以实际交易利率为准</span>
     </page-remind>
 
-    <back-button/>
+    <back-button />
   </div>
 </template>
 
 <script>
-import BackButton from '../components/BackButton.vue';
+import BackButton from "../components/BackButton.vue";
 import MarketCard from "../components/MarketCard.vue";
 import MarketLogoPic from "../components/MarketLogoPic.vue";
 import PageHeader from "../components/PageHeader.vue";
-import PageRemind from '../components/PageRemind.vue';
+import PageRemind from "../components/PageRemind.vue";
 export default {
   components: { PageHeader, MarketLogoPic, MarketCard, PageRemind, BackButton },
   data() {
@@ -35,16 +35,19 @@ export default {
   },
   mounted() {
     this.pageType = this.$route.params.type;
-    if(this.pageType == 'loan'){
-      document.title='贷款超市'
-    }else if(this.pageType == 'store'){
-      document.title='存款超市'
-    }else{
-      document.title='商品超市'
+    let url = "";
+    if (this.pageType == "loan") {
+      document.title = "贷款超市";
+      url = "loan";
+    } else if (this.pageType == "store") {
+      document.title = "存款超市";
+      url = "deposit";
+    } else {
+      document.title = "商品超市";
     }
     this.axios({
       method: "get",
-      url: "",
+      url: "/item/" + url + "/list",
     })
       .then((response) => {
         if (response.data.status != 0) {

@@ -22,7 +22,7 @@
   </div>
 </template>
 
-<script scoped>
+<script scoped> 
 import {mapState,mapMutations} from 'vuex'
 export default {
   data() {
@@ -64,6 +64,10 @@ export default {
         if (response.data.status != 0) {
           this.$toast.fail(response.data.data.message);
         } else {
+          // 没有登录则跳过名字赋值
+          if(response.data.data==null){
+            return false
+          }
           this.userName = response.data.data.name;
         }
       })

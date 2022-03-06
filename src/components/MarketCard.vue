@@ -1,43 +1,45 @@
 <template>
-  <li class="pro-box">
+  <li class="pro-box" @click="goProduct(product.id)">
     <div class="pro-title">
       <div class="min-logo">
         <img src="../../public/images/ico.png" alt="" />
       </div>
-      <div class="pro-name">{{}}</div>
+      <div class="pro-name">{{product.name}}</div>
       <div class="pro-detail">&#xe6ac;</div>
     </div>
     <div class="pro-body">
       <div class="pro-advantage">
-        <div class="adv-num">{{}}</div>
-        <div class="adv-name">{{}}</div>
+        <div class="adv-num">{{product.num}}</div>
+        <div class="adv-name">{{product.info}}</div>
       </div>
       <div class="pro-info">
-        <div class="pro-important">{{}}</div>
+        <div class="pro-important">{{product.intro}}</div>
         <div class="pro-time">
-          <span class="s-time">{{}}</span>
+          <span class="s-time">{{product.startTime}}</span>
           <span class="d-time">开始秒杀</span>
         </div>
         <ul class="label-box">
           <li class="pro-label">{{}}</li>
+          <li class="pro-label">人民币理财</li>
+
         </ul>
       </div>
     </div>
     <div class="remind red">
       <div class="arrow-top"></div>
-      <p style="margin: 0">业绩基准不代表未来表现和实际收益，测算详见说明</p>
+      <p style="margin: 0">利率不代表未来表现和实际收益，测算详见说明</p>
     </div>
   </li>
 </template>
 
 <script>
 export default {
-    props:['product'],
-    data() {
-        return {
-            products:[]
-        }
-    },
+  props: ["product"],
+  data() {
+    return {
+      // products: [],
+    };
+  },
 };
 </script>
 

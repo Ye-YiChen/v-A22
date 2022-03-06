@@ -33,7 +33,8 @@
 
 <script>
 export default {
-  props:['orders']
+  props:['orders'],
+
 };
 </script>
 

@@ -45,15 +45,21 @@ export default {
     return {
       active: null,
       isEmpty: [false, false, false, false],
-      orders: [],
     };
   },
   computed: {
+      orders(){
+        if(!this.orders){
+          return []
+        }else{
+          return this.orders
+        }
+      },
     ...mapState("userAbout", ["userName"]),
   },
-  mounted() {
+  async mounted() {
     document.title = "我的订单";
-    this.isLogin();
+    await this.isLogin()
     this.axios({
       method: "get",
       url: "/order/list?token=" + window.localStorage.getItem("token"),

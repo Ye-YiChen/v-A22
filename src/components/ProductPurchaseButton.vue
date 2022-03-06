@@ -16,7 +16,7 @@
             millisecond
             :time="time"
             ref="countDown"
-            @finish="finish()"
+            
           >
             <template #default="timeData">
               <span class="block">{{
@@ -40,11 +40,12 @@
 </template>
 
 <script>
+// import { mapState } from "vuex";
 export default {
-  // props: ["product"],
+  props: ["product"],
   data() {
     return {
-      localProduct: {
+      /* localProduct: {
         id: 1,
         name: "易方达",
         num: 3.33,
@@ -61,12 +62,20 @@ export default {
         numTime: "2022-04-01T11:17:16.000+00:00",
         state: 0,
         status: null,
-      },
-      state: -100,
+      }, */
+      /* state: -100, */
       time: null,
       timer: null,
-      ifFirst:true
+      ifFirst: true,
     };
+  },
+  computed: {
+    localProduct() {
+      return this.product;
+    },
+    state(){
+      return this.localProduct.state
+    }
   },
   methods: {
     purchase() {
@@ -77,16 +86,12 @@ export default {
         this.goPurchase(this.$route.params.productID);
         return false;
       } else {
+        this.$toast.fail("已经结束了");
         return false;
       }
     },
     finish() {
-      console.log('f');
-      if(!this.ifFirst){
-        this.state++
-      }else{
-        this.ifFirst=!this.ifFirst
-      }
+      this.queryProduct()
     },
     queryProduct() {
       this.axios({
@@ -106,12 +111,10 @@ export default {
     },
   },
   mounted() {
-    this.localProduct = this.product;
-    this.state = this.localProduct.state;
   },
   watch: {
     state: {
-      immediate:true,
+      immediate: true,
       handler(newValue) {
         if (newValue == 0) {
           this.$refs.btn.innerText = "即将开始";

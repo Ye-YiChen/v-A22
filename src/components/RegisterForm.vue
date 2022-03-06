@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main" v-cloak>
     <div class="logo">
       <a href="javascript:;"
         ><img src="../../public/images/min-logo.png" alt=""
@@ -105,7 +105,7 @@ export default {
   data() {
     return {
       user: {
-        phoneNumber: 11111111111,
+        phoneNumber: null,
         IDname: "",
         IDnumber: null,
         pwd: "",

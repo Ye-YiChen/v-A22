@@ -8,13 +8,15 @@
       @cancel="onCancel"
     />
     <search-history v-show="!value" />
+    <search-association v-show="value" />
   </div>
 </template>
 
 <script>
+import SearchAssociation from "../components/SearchAssociation.vue";
 import SearchHistory from "../components/SearchHistory.vue";
 export default {
-  components: { SearchHistory },
+  components: { SearchHistory, SearchAssociation },
   data() {
     return {
       value: "",
@@ -38,8 +40,9 @@ export default {
   watch: {
     value(newValue) {
       clearInterval(this.timer);
-      console.log(newValue);
       this.timer = setTimeout(() => {
+        console.log(newValue);
+
         // 这里应该有个axios请求
       }, 300);
     },
