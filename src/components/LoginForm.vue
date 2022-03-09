@@ -80,6 +80,7 @@ export default {
         },
       })
         .then((response) => {
+          console.log(response.data);
           if (response.data.status != 0)
             this.$toast.fail(response.data.data.message);
           else {
