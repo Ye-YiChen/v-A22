@@ -27,11 +27,7 @@
       <div class="more-action">
         <label for="remember">
           <!-- <van-checkbox name="remember" shape="square" id="remember" icon-size=".426rem">记住密码</van-checkbox> -->
-          <input
-            type="checkbox"
-            id="remember"
-            v-model="ifRememberPwd"
-          />
+          <input type="checkbox" id="remember" v-model="ifRememberPwd" />
           <span>记住密码</span>
         </label>
         <a class="find-psw" href="#">找回密码</a>
@@ -40,6 +36,7 @@
     <button class="wide-btn login-btn" @click="Login()">登录</button>
     <button class="wide-btn register-btn" @click="goRegister()">注册</button>
     <!-- <button class="wide-btn quick-login-btn">网银登录</button> -->
+    <div class="login-box" @click="goHome()">前往主页</div>
   </div>
 </template>
 
@@ -71,23 +68,20 @@ export default {
         message: "正在登录",
       });
 
-      this.axios({
-        methods: "get",
-        url: "/user/login",
-        data: {
-          phone: this.account,
-          pwd: this.pwd,
-        },
-      })
+      var userData = new FormData();
+      userData.append("phone", this.account);
+      userData.append("pwd", this.pwd);
+      this.axios
+        .post("/user/login", userData)
         .then((response) => {
-          console.log(response.data);
           if (response.data.status != 0)
             this.$toast.fail(response.data.data.message);
           else {
             window.localStorage.setItem("token", response.data.data);
+            // this.$store.state.personAbout.userName=response.data.data.
             this.$toast.success("登录成功！");
             if (this.ifRememberPwd) {
-              this.rememberPwd;
+              this.rememberPwd();
             }
             this.goHome();
           }
@@ -129,13 +123,27 @@ export default {
 </script>
 
 <style scoped>
+.login-box {
+  position: absolute;
+  bottom: -1rem;
+  left: 4rem;
+  transform: translate(-50%);
+  height: 1rem;
+  color: #333;
+  font-size: 0.4rem;
+  line-height: 1rem;
+  text-align: center;
+  width: 6rem;
+  background-color: rgba(245, 218, 218, 0.6);
+  border-radius: 0 0 0.2rem 0.2rem;
+}
 .main {
   position: relative;
   background-color: #fff;
   width: 100%;
   padding: 0.5rem;
   border-radius: 0.2rem;
-  box-shadow: 0 0 0.4rem #ef4c53;
+  /* box-shadow: 0 0 0.4rem #ef4c53; */
   box-sizing: border-box;
   /* opacity: .8; */
 }
@@ -162,6 +170,7 @@ export default {
 
 .login {
   margin-top: 0.8rem;
+  padding: 0;
 }
 .login > label {
   font-family: "iconfont";

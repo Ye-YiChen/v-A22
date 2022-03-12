@@ -58,11 +58,11 @@ Vue.use(VanImage);
 Vue.use(Search);
 Vue.use(Icon);
 // axios基本设置
-// axios.defaults.baseURL = 'http://47.113.180.139:90'
+axios.defaults.baseURL ='http://47.113.180.139:90'
 // 代理服务器 请求本地
-// axios.defaults.baseURL ='http://localhost:8080/'
-axios.defaults.withCredentials = true
-
+// axios.defaults.baseURL ='http://10.254.77.131:8080/'
+axios.defaults.withCredentials = false
+// axios.defaults.headers.post['Contetn-Type'] = 'application/x-www-form-urlencoded'
 new Vue({
   router,
   store,

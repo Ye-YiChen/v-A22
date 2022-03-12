@@ -13,10 +13,17 @@ const minin = {
                 name: "Order",
             });
         },
-        goLogin() {
-            this.$router.push({
-                name: "Login",
-            });
+        goLogin(method) {
+            if (method == 1) {
+                this.$router.replace({
+                    name: "Login",
+                });
+            }
+            else {
+                this.$router.push({
+                    name: "Login",
+                });
+            }
         },
         goRegister() {
             this.$router.push({

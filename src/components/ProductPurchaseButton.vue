@@ -83,6 +83,7 @@ export default {
         this.$toast.fail("尚未开始");
         return false;
       } else if (this.state == 1) {
+        // this.isLogin()
         this.goPurchase(this.$route.params.productID);
         return false;
       } else {
@@ -111,6 +112,9 @@ export default {
     },
   },
   mounted() {
+  },
+  beforeDestroy(){
+    clearInterval(this.timer)
   },
   watch: {
     state: {

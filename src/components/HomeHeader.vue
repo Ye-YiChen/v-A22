@@ -32,7 +32,7 @@ export default {};
   margin: 0;
   justify-content: space-between;
   box-sizing: border-box;
-  background-color: #f5444c;
+  background-color: rgb(222,46,23);
   color: #fff;
   z-index: 99;
 }

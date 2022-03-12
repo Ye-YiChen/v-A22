@@ -8,7 +8,7 @@
       @cancel="onCancel"
     />
     <search-history v-show="!value" />
-    <search-association v-show="value" />
+    <search-association v-show="value" :likes="likes" />
   </div>
 </template>
 
@@ -19,9 +19,10 @@ export default {
   components: { SearchHistory, SearchAssociation },
   data() {
     return {
-      value: "",
+      value: " ",
       histories: [],
       timer: null,
+      likes: [],
     };
   },
   mounted() {
@@ -34,21 +35,47 @@ export default {
       window.localStorage.setItem("histories", this.histories);
     },
     onCancel() {
-      this.value = "";
+      console.log(this.value);
+      if (this.value) {
+        console.log(2);
+        // this.value = "";
+      } else {
+        console.log(1);
+        // this.goBack();
+      }
+      return false;
     },
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
   },
   watch: {
     value(newValue) {
       clearInterval(this.timer);
       this.timer = setTimeout(() => {
         console.log(newValue);
-
-        // 这里应该有个axios请求
+        this.axios({
+          method: "get",
+          url: "/item/search",
+          data: {
+            like: this.value,
+          },
+        })
+          .then((response) => {
+            if (response.data.status != 0) {
+              this.$toast.fail(response.data.message);
+            } else {
+              this.likes = response.data.data;
+            }
+          })
+          .catch((err) => {
+            this.$toast.fail(err.message);
+          });
       }, 300);
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 </style>

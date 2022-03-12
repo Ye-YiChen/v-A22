@@ -12,14 +12,19 @@ import Home from '../views/Home.vue'
 
 // 路由懒加载
 const Login = () => import('../views/Login.vue')
-const Register =() => import('../views/Register.vue')
+const Register = () => import('../views/Register.vue')
 const Market = () => import('../views/Market.vue')
-const Order  = () => import('../views/Order.vue')
+const Order = () => import('../views/Order.vue')
 const Product = () => import('../views/Product.vue')
 const Detail = () => import('../views/Detail.vue')
-const Purchase =()=>import('../views/Purchase.vue')
+const Purchase = () => import('../views/Purchase.vue')
 const Search = () => import('../views/SearchPage.vue')
 
+
+const orginalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return orginalPush.call(this, location).catch(err => err)
+}
 
 
 
@@ -55,6 +60,19 @@ const routes = [
     path: '/order',
     name: 'Order',
     component: Order,
+    beforeEnter: (to, from, next) => {
+      const tokenStr = window.localStorage.getItem('token')
+      if (!tokenStr) {
+        next(vm=>{
+          vm.$toast.fail('请先登录！')
+        })
+        return next({
+          path: '/login'
+        })
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/product/:productID',
@@ -64,17 +82,28 @@ const routes = [
   {
     path: '/purchase/:productID',
     name: 'Purchase',
-    component: Purchase
+    component: Purchase,
+    beforeEnter: (to, from, next) => {
+      const tokenStr = window.localStorage.getItem('token')
+      if (!tokenStr) {
+        return next({
+          path: '/login'
+        })
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/detail/:orderID',
     name: 'Detail',
-    component: Detail
+    component: Detail,
+
   },
   {
-    path:'/search',
-    name:'Search',
-    component:Search
+    path: '/search',
+    name: 'Search',
+    component: Search
   }
 ]
 

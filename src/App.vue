@@ -71,16 +71,6 @@ p {
   margin: 0;
 }
 
-.rotateDown {
-  transform: rotate(180deg);
-  transition: all 0.2s linear;
-}
-
-.rotateUp {
-  transform: rotate(0deg);
-  transition: all 0.2s linear;
-}
-
 .small-btn {
   display: inline-block;
   height: 1.2rem;

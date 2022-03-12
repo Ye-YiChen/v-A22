@@ -2,12 +2,19 @@
   <div class="purchase" v-cloak>
     <page-header>支付订单</page-header>
     <van-cell-group class="fix">
-      <van-cell title="产品名称" value="内容XXXX" />
-      <van-cell title="交易账户" value="6288****7077" label="可用金额99.99元" />
+      <van-cell title="产品名称" :value="product.name" />
+      <van-cell
+        title="交易账户"
+        :value="'6288****7077'"
+        label="可用金额99.99元"
+      />
     </van-cell-group>
     <van-cell-group class="fix">
-      <van-cell title="可购金额" value="剩余10000份" />
-      <van-cell title="单笔金额" value="10000元" />
+      <van-cell
+        title="可购金额"
+        :value="'剩余' + (Number(product.stock) - Number(product.sales)) + '份'"
+      />
+      <van-cell title="单笔金额" :value="product.price + '元'" />
     </van-cell-group>
     <purchase-num-card />
     <purchase-agree-card />
@@ -28,12 +35,17 @@ export default {
     PurchaseBottomButtom,
   },
   data() {
-    return {};
+    return {
+      product: {},
+    };
   },
   mounted() {
     document.title = "购买页面";
-    this.isLogin();
+    this.product = this.$store.state.orderAbout.productInfo;
   },
+  created(){
+    // this.goBack();
+  }
 };
 </script>
 

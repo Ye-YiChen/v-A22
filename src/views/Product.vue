@@ -148,7 +148,7 @@ export default {
 }
 .bigWords {
   font-weight: 700;
-  font-size: 0.4267rem;
+  font-size: 0.4rem;
 }
 .popupBox {
   display: flex;

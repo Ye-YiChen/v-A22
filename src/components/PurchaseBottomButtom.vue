@@ -9,12 +9,10 @@
 import { mapState } from "vuex";
 export default {
   data() {
-    return {
-    };
+    return {};
   },
-  computed:{
-      ...mapState("orderAbout", ["orderNum", "ifAgree"]),
-
+  computed: {
+    ...mapState("orderAbout", ["orderNum", "ifAgree"]),
   },
   methods: {
     purchase() {
@@ -31,15 +29,16 @@ export default {
         duration: 0,
         forbidClick: true,
       });
-      this.axios({
-        method: "post",
-        url: "/order/create",
-        data: {
-          id: this.$route.params.productID,
-          amount: this.orderNum,
-        },
-      })
+      var orderData = new FormData();
+      orderData.append("itemId", this.$route.params.productID);
+      orderData.append("amount", this.orderNum);
+      this.axios
+        .post(
+          "/order/create?token=" + window.localStorage.getItem("token"),
+          orderData
+        )
         .then((response) => {
+          console.log(response.data);
           if (response.data.status != 0) {
             this.$toast.fail(response.data.data.message);
           } else {

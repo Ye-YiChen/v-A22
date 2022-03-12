@@ -3,11 +3,11 @@
     <div class="choices">
       <div class="loans" @click="goMarket('loan')">
         <div class="small-ico">&#xe63e;</div>
-        <div class="small-text" >贷款</div>
+        <div class="small-text">贷款</div>
       </div>
       <div class="store" @click="goMarket('store')">
         <div class="small-ico">&#xe6aa;</div>
-        <div class="small-text" >理财</div>
+        <div class="small-text">理财</div>
       </div>
       <div class="myorder" @click="goOrder()">
         <div class="small-ico">&#xe897;</div>
@@ -22,22 +22,21 @@
   </div>
 </template>
 
-<script scoped> 
-import {mapState,mapMutations} from 'vuex'
+<script scoped>
+import { mapState, mapMutations } from "vuex";
 export default {
   data() {
-    return {
-    };
+    return {};
   },
-  computed:{
-    ...mapState('userAbout',['userName'])
+  computed: {
+    ...mapState("userAbout", ["userName"]),
   },
   methods: {
     // 注销按钮
     logOut() {
       this.axios({
         method: "get",
-        url: "",
+        url: "/logout?token=" + window.localStorage.getItem("token"),
       })
         .then((response) => {
           if (response.data.status != 0) {
@@ -52,23 +51,23 @@ export default {
           this.$toast.fail(err.message);
         });
     },
-    ...mapMutations('userAbout',['SET_USERNAME',])
+    ...mapMutations("userAbout", ["SET_USERNAME"]),
   },
   mounted() {
     // 用户名请求
     this.axios({
       type: "get",
-      url: "/user/status",
+      url: "/user/status?token=" + window.localStorage.getItem("token"),
     })
       .then((response) => {
         if (response.data.status != 0) {
           this.$toast.fail(response.data.data.message);
         } else {
           // 没有登录则跳过名字赋值
-          if(response.data.data==null){
-            return false
+          if (response.data.data == null) {
+            return false;
           }
-          this.userName = response.data.data.name;
+          this.$store.state.userAbout.userName= response.data.data.name;
         }
       })
       .catch((err) => {
@@ -87,7 +86,9 @@ export default {
   color: #fff;
   /* padding-bottom: .3rem; */
   margin-bottom: 1rem;
-  background-image: linear-gradient(to top, rgb(236, 202, 208), #f5444c);
+  background: url("../../public/images/red-bgc.png") repeat;
+  background-size: cover;
+  /* background-image: linear-gradient(to top, rgb(236, 202, 208), #f5444c); */
 }
 
 .main {

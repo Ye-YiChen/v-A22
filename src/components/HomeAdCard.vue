@@ -101,6 +101,7 @@ export default {
 }
 .noad-main{
   flex: 1;
+  /* min-width: 2.6667rem; */
 }
 .noad-body{
   flex: 1;

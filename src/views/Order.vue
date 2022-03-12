@@ -1,7 +1,7 @@
 <template>
   <div class="order" v-cloak>
     <page-header>
-      <span>全部订单</span>
+      <span>我的订单</span>
     </page-header>
     <van-notice-bar
       left-icon="volume-o"
@@ -10,16 +10,16 @@
     />
     <van-tabs v-model="active" animated>
       <van-tab title="全部" class="order-container">
-        <order-card />
+        <order-card :orders="orders" />
       </van-tab>
       <van-tab title="待支付" class="order-container">
-        <order-card />
+        <order-card :orders="orders" />
       </van-tab>
       <van-tab title="已完成" class="order-container">
-        <order-card />
+        <order-card :orders="orders" />
       </van-tab>
       <van-tab title="已取消" class="order-container">
-        <order-card />
+        <order-card :orders="orders" />
       </van-tab>
     </van-tabs>
 
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 import BackButton from "../components/BackButton.vue";
 import OrderCard from "../components/OrderCard.vue";
 import PageHeader from "../components/PageHeader.vue";
@@ -45,31 +45,30 @@ export default {
     return {
       active: null,
       isEmpty: [false, false, false, false],
+      orders: [],
     };
   },
   computed: {
-      orders(){
-        if(!this.orders){
-          return []
-        }else{
-          return this.orders
-        }
-      },
-    ...mapState("userAbout", ["userName"]),
+    // ...mapState("userAbout", ["userName"]),
   },
   async mounted() {
     document.title = "我的订单";
-    await this.isLogin()
+    await this.isLogin();
     this.axios({
       method: "get",
       url: "/order/list?token=" + window.localStorage.getItem("token"),
-    }).then((response) => {
-      if (response.data.status != 0) {
-        this.$toast.fail(response.data.data.message);
-      } else {
-        this.orders = response.data.data;
-      }
-    });
+    })
+      .then((response) => {
+        console.log(response);
+        if (response.data.status != 0) {
+          this.$toast.fail(response.data.data.message);
+        } else {
+          this.orders = response.data.data;
+        }
+      })
+      .catch((err) => {
+        this.$toast.fail(err.message);
+      });
   },
 };
 </script>

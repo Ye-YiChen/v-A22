@@ -19,7 +19,7 @@
           <span class="d-time">开始秒杀</span>
         </div>
         <ul class="label-box">
-          <li class="pro-label">{{}}</li>
+          <li class="pro-label">{{product.risk}}</li>
           <li class="pro-label">人民币理财</li>
 
         </ul>

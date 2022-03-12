@@ -7,11 +7,11 @@
       <home-recommend-card :recommends="stores" />
       <home-notice-bar :notices="notices" />
       <div class="noads">
-        <home-ad-card :ads="loans.slice(0,3)" type="loan">
+        <home-ad-card :ads="loans.slice(0, 3)" type="loan">
           <template v-slot:icon><span class="re-ico">&#xe63e;</span></template>
           <template v-slot:cardName><span>精选贷款</span></template>
         </home-ad-card>
-        <home-ad-card :ads="stores.slice(0,3)" type="store">
+        <home-ad-card :ads="stores.slice(0, 3)" type="store">
           <template v-slot:icon><span class="re-ico">&#xe6aa;</span></template>
           <template v-slot:cardName><span>精选存款</span></template>
         </home-ad-card>
@@ -31,7 +31,7 @@ import HomeRecommendCard from "../components/HomeRecommendCard.vue";
 import HomeSelect from "../components/HomeSelect.vue";
 import HomeSwiper from "../components/HomeSwiper.vue";
 import HomeSecretary from "../components/HomeSecretary.vue";
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 export default {
   components: {
     HomeHeader,
@@ -114,11 +114,12 @@ export default {
       },
     };
   },
-  computed:{
-    ...mapState('userAbout',['userName'])
+  computed: {
+    ...mapState("userAbout", ["userName"]),
   },
   mounted() {
-    document.title='主页面'
+    document.title = "主页面";
+    // 获取用户ID  zai HomeSelect里
     // 获取贷款列表
     this.axios({
       method: "get",
@@ -134,7 +135,7 @@ export default {
       })
       .catch((err) => {
         this.$toast.fail(err.message);
-        return false
+        return false;
       });
     //获取存款列表
     this.axios({
@@ -171,7 +172,7 @@ export default {
 };
 </script>
 
-<style>
+<style >
 .noads {
   display: flex;
   flex-direction: column;
