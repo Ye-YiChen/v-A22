@@ -6,7 +6,7 @@
       </div>
       <!-- 最长 "剩余10,00000000份" 可正常显示 -->
       <div class="pro-left">
-        剩余{{ localProduct.stock - localProduct.sales }}份
+        剩余{{ localProduct.stock}}份
       </div>
       <div class="time-box red">
         <div class="arrow-left"></div>

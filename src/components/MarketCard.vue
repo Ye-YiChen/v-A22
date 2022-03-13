@@ -4,24 +4,23 @@
       <div class="min-logo">
         <img src="../../public/images/ico.png" alt="" />
       </div>
-      <div class="pro-name">{{product.name}}</div>
+      <div class="pro-name">{{ product.name }}</div>
       <div class="pro-detail">&#xe6ac;</div>
     </div>
     <div class="pro-body">
       <div class="pro-advantage">
-        <div class="adv-num">{{product.num}}</div>
-        <div class="adv-name">{{product.info}}</div>
+        <div class="adv-num">{{ product.num }}</div>
+        <div class="adv-name">{{ product.info }}</div>
       </div>
       <div class="pro-info">
-        <div class="pro-important">{{product.intro}}</div>
+        <div class="pro-important">{{ product.intro }}</div>
         <div class="pro-time">
-          <span class="s-time">{{product.startTime}}</span>
+          <span class="s-time">{{ product.startTime }}</span>
           <span class="d-time">开始秒杀</span>
         </div>
         <ul class="label-box">
-          <li class="pro-label">{{product.risk}}</li>
+          <li class="pro-label">{{ product.risk }}</li>
           <li class="pro-label">人民币理财</li>
-
         </ul>
       </div>
     </div>

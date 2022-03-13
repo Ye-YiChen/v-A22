@@ -36,12 +36,15 @@ export default {
     logOut() {
       this.axios({
         method: "get",
-        url: "/logout?token=" + window.localStorage.getItem("token"),
+        url: "/user/logout?token=" + window.localStorage.getItem("token"),
       })
         .then((response) => {
           if (response.data.status != 0) {
             this.$toast.fail(response.data.data.message);
           } else {
+            window.localStorage.removeItem("token");
+            this.$toast.success("退出成功！");
+            this.$store.state.userAbout.userName = null;
             this.$router.push({
               name: "Login",
             });
@@ -67,7 +70,7 @@ export default {
           if (response.data.data == null) {
             return false;
           }
-          this.$store.state.userAbout.userName= response.data.data.name;
+          this.$store.state.userAbout.userName = response.data.data.name;
         }
       })
       .catch((err) => {

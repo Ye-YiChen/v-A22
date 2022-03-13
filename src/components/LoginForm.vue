@@ -68,12 +68,22 @@ export default {
         message: "正在登录",
       });
 
-      var userData = new FormData();
-      userData.append("phone", this.account);
-      userData.append("pwd", this.pwd);
-      this.axios
-        .post("/user/login", userData)
+      // var userData = new FormData();
+      // userData.append("phone", this.account);
+      // userData.append("pwd", this.pwd);
+      // this.axios
+      //   .post("/user/login", userData)
+      this.axios({
+        method: "post",
+        url: "/user/login",
+        data: {},
+        params: {
+          phone: this.account,
+          pwd: this.pwd,
+        },
+      })
         .then((response) => {
+          console.log(response);
           if (response.data.status != 0)
             this.$toast.fail(response.data.data.message);
           else {

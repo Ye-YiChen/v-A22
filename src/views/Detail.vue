@@ -40,8 +40,12 @@ export default {
     this.axios({
       method: "get",
       url: "/order/detail/" + this.orderID,
+      params:{
+        token:window.localStorage.getItem('token')
+      }
     })
       .then((response) => {
+        console.log(response);
         if (response.data.status != 0) {
           this.$toast.fail(response.data.data.message);
         } else {

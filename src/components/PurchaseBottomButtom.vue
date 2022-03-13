@@ -29,21 +29,32 @@ export default {
         duration: 0,
         forbidClick: true,
       });
-      var orderData = new FormData();
-      orderData.append("itemId", this.$route.params.productID);
-      orderData.append("amount", this.orderNum);
-      this.axios
-        .post(
-          "/order/create?token=" + window.localStorage.getItem("token"),
-          orderData
-        )
+      // var orderData = new FormData();
+      // orderData.append("itemId", this.$route.params.productID);
+      // orderData.append("amount", this.orderNum);
+      // this.axios
+      //   .post(
+      //     "/order/create?token=" + window.localStorage.getItem("token"),
+      //     orderData
+      //   )
+
+      this.axios({
+        method: "post",
+        url: "/order/create",
+        data: {},
+        params: {
+          token: window.localStorage.getItem("token"),
+          itemId: this.$route.params.productID,
+          amount: this.orderNum,
+        },
+      })
         .then((response) => {
-          console.log(response.data);
           if (response.data.status != 0) {
             this.$toast.fail(response.data.data.message);
           } else {
             this.$toast.success("购买成功");
-            this.goDetail(response.data.data.id);
+            // console.log(this.$route.params.productID);
+            this.goDetail(this.$route.params.productID);
           }
         })
         .catch((err) => {
