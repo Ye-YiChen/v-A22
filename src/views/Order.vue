@@ -10,16 +10,16 @@
     />
     <van-tabs v-model="active" animated>
       <van-tab title="全部" class="order-container">
-        <order-card :orders="orders" />
+        <order-card v-for="(order,index) in orders" :key="index" :orders="order" />
       </van-tab>
       <van-tab title="待支付" class="order-container">
-        <order-card :orders="orders" />
+        <order-card v-for="(order,index) in orders" :key="index" :orders="order" />
       </van-tab>
       <van-tab title="已完成" class="order-container">
-        <order-card :orders="orders" />
+        <order-card v-for="(order,index) in orders" :key="index" :orders="order" />
       </van-tab>
       <van-tab title="已取消" class="order-container">
-        <order-card :orders="orders" />
+        <order-card v-for="(order,index) in orders" :key="index" :orders="order" />
       </van-tab>
     </van-tabs>
 
@@ -63,6 +63,13 @@ export default {
         if (response.data.status != 0) {
           this.$toast.fail(response.data.data.message);
         } else {
+          if(response.data.data.length==0){
+            this.isEmpty[0]=true
+            this.isEmpty[1]=true
+            this.isEmpty[2]=true
+            this.isEmpty[3]=true
+            return false
+          }
           this.orders = response.data.data;
         }
       })

@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="remind">温馨提示：理财非存款，产品有风险，投资需谨慎。</div>
-    <button class="purchase-btn" @click="purchase">支付订单</button>
+    <button class="purchase-btn" @click="purchase">提交订单</button>
   </footer>
 </template>
 

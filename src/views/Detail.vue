@@ -2,7 +2,7 @@
   <div class="detail" v-cloak>
     <page-header><span>订单详情</span></page-header>
     <detail-logo-pic />
-    <detail-card />
+    <detail-card  :order="orderInfo"/>
     <page-remind>
       <span>期望汇报不等于实际汇报，产品有风险，投资须谨慎</span>
     </page-remind>
@@ -19,12 +19,6 @@ import DetailLogoPic from "../components/DetailLogoPic.vue";
 import PageHeader from "../components/PageHeader.vue";
 import PageRemind from "../components/PageRemind.vue";
 export default {
-  data() {
-    return {
-      orderID: "",
-      orderInfo: "",
-    };
-  },
   components: {
     PageHeader,
     BackButton,
@@ -33,6 +27,13 @@ export default {
     PageRemind,
     BackHomeButton,
   },
+  data() {
+    return {
+      orderID: "",
+      orderInfo: "",
+    };
+  },
+  
   mounted() {
     document.title='订单详情页面'
     this.isLogin()

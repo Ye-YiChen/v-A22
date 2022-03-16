@@ -1,15 +1,15 @@
 <template>
   <div class="card">
     <div class="card-title">
-      <div class="pro-name">{{}}</div>
+      <div class="pro-name">{{ order.itemName }}</div>
       <ul class="pro-box">
         <li class="pro-short-info">
           <div class="short-info-name">自有本金(元)</div>
-          <div class="short-info-detail">{{}}</div>
+          <div class="short-info-detail">{{ order.orderPrice }}</div>
         </li>
         <li class="pro-short-info">
           <div class="short-info-name return-ico">累计期望回报(元)</div>
-          <div class="short-info-detail">{{}}</div>
+          <div class="short-info-detail">{{ interest }}</div>
         </li>
       </ul>
     </div>
@@ -45,20 +45,99 @@
     </ul>
     <ul class="specific-info">
       <li>
-        <div class="specific-info-name">{{}}</div>
-        <div class="specific-info-detail">{{}}</div>
+        <div class="specific-info-name">产品名称</div>
+        <div class="specific-info-detail">{{order.itemName}}</div>
       </li>
+      <li>
+        <div class="specific-info-name">期望年化回报率</div>
+        <div class="specific-info-detail">{{order.num}}%</div>
+      </li>
+      <li>
+        <div class="specific-info-name">购买时间</div>
+        <div class="specific-info-detail">{{dateFormat(order.orderTime)}}</div>
+      </li>
+      <li>
+        <div class="specific-info-name">起息时间</div>
+        <div class="specific-info-detail">{{dateFormat(order.numTime)}}</div>
+      </li>
+      <li>
+        <div class="specific-info-name">封闭期</div>
+        <div class="specific-info-detail">{{order.term}}</div>
+      </li>
+      <li>
+        <div class="specific-info-name">结息时间</div>
+        <div class="specific-info-detail">{{dateFormat()}}</div>
+      </li>
+      <li>
+        <div class="specific-info-name">总金额</div>
+        <div class="specific-info-detail">￥{{order.orderPrice}}</div>
+      </li>
+      <li>
+        <div class="specific-info-name">总份数</div>
+        <div class="specific-info-detail">共 {{order.amount}} 份</div>
+      </li>
+      <li>
+        <div class="specific-info-name">订单编号</div>
+        <div class="specific-info-detail">{{order.id}}</div>
+      </li>
+      <li>
+        <div class="specific-info-name">风险等级</div>
+        <div class="specific-info-detail" :class="riskColor">{{order.risk}}</div>
+      </li>
+      
     </ul>
   </div>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-            active:null
-        }
+  props: ["order"],
+  data() {
+    return {
+      active: null,
+    };
+  },
+  computed: {
+    interest() {
+      return (this.order.orderPrice * this.order.num * this.order.term) / 360 / 100;
     },
+    riskColor(){
+      if(this.order.risk=='高风险'){
+        return 'red'
+      }
+      if(this.order.risk=='中风险'){
+        return 'yellow'
+      }
+      return 'green'
+    }
+  },
+  methods: {
+    timeSize2(value) {
+      if (Number(value) < 0) {
+        value = -value;
+      }
+      if (String(value).length < 2) {
+        value = "0" + value;
+      } else if (String(value).length > 2) {
+        value = String(value).substr(0, 2);
+      }
+      return value;
+    },
+    dateFormat(value) {
+      var time = new Date(value);
+      return (
+        time.getFullYear(1) +
+        "-" +
+        this.timeSize2(Number(time.getMonth()) + 1) +
+        "-" +
+        this.timeSize2(time.getDate()) +
+        " " +
+        this.timeSize2(time.getHours()) +
+        ":" +
+        this.timeSize2(time.getSeconds())
+      );
+    },
+  },
 };
 </script>
 
@@ -91,6 +170,7 @@ export default {
   font-size: 0.4rem;
   text-align: left;
   width: 100%;
+  margin-bottom: 0.3rem;
 }
 .pro-short-info {
   font-family: "iconfont";
@@ -141,8 +221,8 @@ export default {
   flex-wrap: wrap;
   padding: 0.4rem;
 }
-.time-bar{
-    flex: 1;
+.time-bar {
+  flex: 1;
 }
 
 .specific-info {

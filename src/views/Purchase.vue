@@ -12,7 +12,7 @@
     <van-cell-group class="fix">
       <van-cell
         title="可购金额"
-        :value="'剩余' + (Number(product.stock) - Number(product.sales)) + '份'"
+        :value="'剩余' + Number(product.stock) +'份'"
       />
       <van-cell title="单笔金额" :value="product.price + '元'" />
     </van-cell-group>
