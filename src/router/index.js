@@ -19,8 +19,9 @@ const Product = () => import('../views/Product.vue')
 const Detail = () => import('../views/Detail.vue')
 const Purchase = () => import('../views/Purchase.vue')
 const Search = () => import('../views/SearchPage.vue')
+const Wait = () => import('../views/WaitPuchase.vue')
 
-
+// 中途跳转报错解决 重写跳转函数
 const orginalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
   return orginalPush.call(this, location).catch(err => err)
@@ -93,6 +94,11 @@ const routes = [
         next()
       }
     }
+  },
+  {
+    path:'/wait/:orderID',
+    name:'Wait',
+    component: Wait,
   },
   {
     path: '/detail/:orderID',

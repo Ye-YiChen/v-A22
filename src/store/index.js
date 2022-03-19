@@ -10,7 +10,7 @@ const userAbout = {
     userName: '',
   },
   mutations: {
-    SET_USERNAME(state,value) {
+    SET_USERNAME(state, value) {
       state.userName = value
       return false
     }
@@ -20,19 +20,19 @@ const orderAbout = {
   namespaced: true, // 开启命名空间
   state: {
     orderNum: null,
-    ifAgree :false,
-    productInfo:{}
+    ifAgree: false,
+    productInfo: {}
   },
   mutations: {
-    SET_ORDER_NUM(state,value) {
+    SET_ORDER_NUM(state, value) {
       state.orderNum = value
       return false
     },
-    SET_IF_AGREE(state,value) {
+    SET_IF_AGREE(state, value) {
       state.ifAgree = value
       return false
     },
-    SET_PRODUCT_INFO(state,value) {
+    SET_PRODUCT_INFO(state, value) {
       state.productInfo = value
       return false
     }

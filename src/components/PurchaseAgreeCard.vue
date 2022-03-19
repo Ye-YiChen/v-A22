@@ -17,12 +17,12 @@
     <div class="mind item">
       {{ agreeWords }}
     </div>
-    <div class="tip red" @click="copyAgree()">&#xe656; 复制并粘贴</div>
+    <div class="tip red" @click.prevent="copyAgree()">&#xe656; 复制并粘贴</div>
     <textarea
       class="type"
       placeholder="请完整输入上述风险提示声明"
-      ref="typeIn"
-      @change="checkAgree()"
+      @input.prevent="checkAgree()"
+      v-model="inputWords"
     ></textarea>
   </div>
 </template>
@@ -34,18 +34,25 @@ export default {
     return {
       agreeWords:
         "风险提示声明：本人已阅读并同意理财产品购买声明、产品投资协议、代理销售协议、风险揭示书、产品说明书、投资者权益须知和全部内容、愿意承担投资风险。",
+      inputWords: null,
     };
   },
   methods: {
     copyAgree() {
-      this.$refs.typeIn.innerText = this.agreeWords;
+      this.inputWords = this.agreeWords;
+      this.SET_IF_AGREE(true);
     },
     checkAgree() {
-      if (this.$refs.typeIn.innerText() == this.agreeWords) {
-        this.SET_IF_AGREE(true)
+      if (this.inputWords === this.agreeWords) {
+        this.SET_IF_AGREE(true);
+      } else {
+        this.SET_IF_AGREE(false);
       }
     },
     ...mapMutations("orderAbout", ["SET_IF_AGREE"]),
+  },
+  beforeDestroy() {
+    this.SET_IF_AGREE(false);
   },
 };
 </script>

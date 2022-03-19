@@ -10,20 +10,36 @@
     />
     <van-tabs v-model="active" animated>
       <van-tab title="全部" class="order-container">
-        <order-card v-for="(order,index) in orders" :key="index" :orders="order" />
+        <order-card
+          v-for="(order, index) in orders"
+          :key="index"
+          :orders="order"
+        />
       </van-tab>
       <van-tab title="待支付" class="order-container">
-        <order-card v-for="(order,index) in orders" :key="index" :orders="order" />
+        <order-card
+          v-for="(order, index) in orders"
+          :key="index"
+          :orders="order"
+        />
       </van-tab>
       <van-tab title="已完成" class="order-container">
-        <order-card v-for="(order,index) in orders" :key="index" :orders="order" />
+        <order-card
+          v-for="(order, index) in orders"
+          :key="index"
+          :orders="order"
+        />
       </van-tab>
       <van-tab title="已取消" class="order-container">
-        <order-card v-for="(order,index) in orders" :key="index" :orders="order" />
+        <order-card
+          v-for="(order, index) in orders"
+          :key="index"
+          :orders="order"
+        />
       </van-tab>
     </van-tabs>
 
-    <van-empty v-if="isEmpty[active]" description="这里空空如也呢">
+    <van-empty v-show="isEmpty[active]" description="这里空空如也呢">
       <van-button round type="danger" class="bottom-button" @click="goHome()"
         >去主页看看吧</van-button
       >
@@ -44,16 +60,16 @@ export default {
   data() {
     return {
       active: null,
-      isEmpty: [false, false, false, false],
+      isEmpty: [true, true, true, true],
       orders: [],
     };
   },
   computed: {
     // ...mapState("userAbout", ["userName"]),
   },
-  async mounted() {
+  mounted() {
     document.title = "我的订单";
-    await this.isLogin();
+    this.isLogin();
     this.axios({
       method: "get",
       url: "/order/list?token=" + window.localStorage.getItem("token"),
@@ -62,15 +78,22 @@ export default {
         console.log(response);
         if (response.data.status != 0) {
           this.$toast.fail(response.data.data.message);
+          return false;
         } else {
-          if(response.data.data.length==0){
-            this.isEmpty[0]=true
-            this.isEmpty[1]=true
-            this.isEmpty[2]=true
-            this.isEmpty[3]=true
-            return false
+          if (response.data.data.length == 0) {
+            this.isEmpty[0] = true;
+            this.isEmpty[1] = true;
+            this.isEmpty[2] = true;
+            this.isEmpty[3] = true;
+            return false;
+          } else {
+            this.isEmpty[0] = false;
+            this.isEmpty[1] = false;
+            this.isEmpty[2] = false;
+            this.isEmpty[3] = false;
+            this.orders = response.data.data;
+            return false;
           }
-          this.orders = response.data.data;
         }
       })
       .catch((err) => {

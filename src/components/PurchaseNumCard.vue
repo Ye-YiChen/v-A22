@@ -13,7 +13,7 @@
     <div class="fade tip">
       <div>总价</div>
       <div class="extra-money">
-        {{ Number(productInfo.price * purchaseNum || 0.00).toFixed(2)}}元
+        {{ Number(productInfo.price * purchaseNum || 0.0).toFixed(2) }}元
       </div>
     </div>
   </div>
@@ -40,6 +40,9 @@ export default {
       }
       this.SET_ORDER_NUM(newValue);
     },
+  },
+  beforeDestroy() {
+    this.SET_ORDER_NUM(null);
   },
 };
 </script>

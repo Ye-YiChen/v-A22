@@ -20,7 +20,7 @@ export default {
         this.$toast.fail("请输入正确的购买数量");
         return false;
       }
-      if (this.ifAgree) {
+      if (!this.ifAgree) {
         this.$toast.fail('请完整输入"风险提示说明"');
         return false;
       }

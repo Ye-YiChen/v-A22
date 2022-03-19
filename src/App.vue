@@ -25,10 +25,6 @@ html {
   background-color: rgb(253, 241, 241);
 }
 
-body {
-  letter-spacing: 0.0267rem;
-}
-
 header {
   position: -webkit-sticky;
   position: sticky;
