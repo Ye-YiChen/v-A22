@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="remind">温馨提示：理财非存款，产品有风险，投资需谨慎。</div>
-    <button class="purchase-btn" @click="purchase">提交订单</button>
+    <button class="purchase-btn" @click="purchaseCheck()">提交订单</button>
   </footer>
 </template>
 
@@ -9,13 +9,15 @@
 import { mapState } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      permissionToken: null,
+    };
   },
   computed: {
-    ...mapState("orderAbout", ["orderNum", "ifAgree"]),
+    ...mapState("orderAbout", ["orderNum", "ifAgree", "showKeyboard", "value"]),
   },
   methods: {
-    purchase() {
+    purchaseCheck() {
       if (!this.orderNum) {
         this.$toast.fail("请输入正确的购买数量");
         return false;
@@ -24,19 +26,36 @@ export default {
         this.$toast.fail('请完整输入"风险提示说明"');
         return false;
       }
+  this.queryBucket()
+    },
+
+    queryBucket() {
+      this.axios({
+        method: "get",
+        url: "/order/bucket",
+        params: {
+          token: window.localStorage.getItem("token"),
+          itemId: this.$route.params.productID,
+        },
+      })
+        .then((response) => {
+          if (response.data.status != 0) {
+            this.$toast.fail(response.data.data.message);
+          } else {
+            this.permissionToken = response.data.data;
+            this.sendPruchase()
+          }
+        })
+        .catch((err) => {
+          this.$toast.fail(err.message);
+        });
+    },
+    sendPruchase() {
       this.$toast.loading({
         message: "正在购买...",
         duration: 0,
         forbidClick: true,
       });
-      // var orderData = new FormData();
-      // orderData.append("itemId", this.$route.params.productID);
-      // orderData.append("amount", this.orderNum);
-      // this.axios
-      //   .post(
-      //     "/order/create?token=" + window.localStorage.getItem("token"),
-      //     orderData
-      //   )
 
       this.axios({
         method: "post",
@@ -44,6 +63,7 @@ export default {
         data: {},
         params: {
           token: window.localStorage.getItem("token"),
+          permissionToken:this.permissionToken,
           itemId: this.$route.params.productID,
           amount: this.orderNum,
         },
@@ -52,14 +72,26 @@ export default {
           if (response.data.status != 0) {
             this.$toast.fail(response.data.data.message);
           } else {
+            // this.$store.state.orderAbout.showKeyboard = true;
             this.$toast.success("购买成功");
             // console.log(this.$route.params.productID);
-            this.goDetail(this.$route.params.productID);
+            this.goDetail(response.data.data);
           }
         })
         .catch((err) => {
           this.$toast.fail(err.message);
         });
+    },
+    pwdCheck(){
+      
+    }
+  },
+  watch: {
+    value(newValue) {
+      if (newValue.length == 6) {
+        this.pwdCheck()
+      }
+      return false;
     },
   },
 };

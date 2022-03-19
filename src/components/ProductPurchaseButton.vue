@@ -5,19 +5,12 @@
         <img src="../../public/images/ico.png" alt="" />
       </div>
       <!-- 最长 "剩余10,00000000份" 可正常显示 -->
-      <div class="pro-left">
-        剩余{{ localProduct.stock}}份
-      </div>
+      <div class="pro-left">剩余{{ localProduct.stock }}份</div>
       <div class="time-box red">
         <div class="arrow-left"></div>
         <div class="time-title red" ref="countTitle">本次秒杀开始还剩</div>
         <div class="time-left">
-          <van-count-down
-            millisecond
-            :time="time"
-            ref="countDown"
-            
-          >
+          <van-count-down millisecond :time="time" ref="countDown">
             <template #default="timeData">
               <span class="block">{{
                 timeData.hours + timeData.days * 24 || "00"
@@ -45,25 +38,6 @@ export default {
   props: ["product"],
   data() {
     return {
-      /* localProduct: {
-        id: 1,
-        name: "易方达",
-        num: 3.33,
-        info: "近一年增长率",
-        intro: "6个月定期存款",
-        price: 100000.0,
-        sales: 666,
-        limited: 10,
-        stock: 994,
-        term: 180,
-        risk: "中风险",
-        startTime: "2022-04-09T16:00:00.000+00:00",
-        endTime: "2026-08-15T06:28:00.000+00:00",
-        numTime: "2022-04-01T11:17:16.000+00:00",
-        state: 0,
-        status: null,
-      }, */
-      /* state: -100, */
       time: null,
       timer: null,
       ifFirst: true,
@@ -73,9 +47,10 @@ export default {
     localProduct() {
       return this.product;
     },
-    state(){
-      return this.localProduct.state
-    }
+    state() {
+      return this.localProduct.state;
+    },
+    // ...mapState("orderAbout", ["showKeyboard"]),
   },
   methods: {
     purchase() {
@@ -92,7 +67,7 @@ export default {
       }
     },
     finish() {
-      this.queryProduct()
+      this.queryProduct();
     },
     queryProduct() {
       this.axios({
@@ -111,10 +86,9 @@ export default {
         });
     },
   },
-  mounted() {
-  },
-  beforeDestroy(){
-    clearInterval(this.timer)
+  mounted() {},
+  beforeDestroy() {
+    clearInterval(this.timer);
   },
   watch: {
     state: {

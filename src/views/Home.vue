@@ -1,5 +1,5 @@
 <template>
-  <div class="home" v-cloak>
+  <div class="home" v-cloak v-if="loaded">
     <home-header />
     <home-select />
     <div class="main">
@@ -45,77 +45,25 @@ export default {
   },
   data() {
     return {
-      loans: [
-        {
-          num: 3.3,
-          name: "易方达",
-          info: "近一年增长率",
-          intro: "XXXXX",
-          id: "0001",
-        },
-        {
-          num: 3.3,
-          name: "易方达",
-          info: "近一年增长率",
-          intro: "XXXXX",
-          id: "0002",
-        },
-        {
-          num: 3.3,
-          name: "易方达",
-          info: "近一年增长率",
-          intro: "XXXXX",
-          id: "0003",
-        },
-      ],
-      stores: [
-        {
-          num: 3.3,
-          name: "易方达",
-          info: "近一年增长率",
-          intro: "XXXXX",
-          id: "0001",
-        },
-        {
-          num: 3.3,
-          name: "易方达",
-          info: "近一年增长率",
-          intro: "XXXXX",
-          id: "0002",
-        },
-        {
-          num: 3.3,
-          name: "易方达",
-          info: "近一年增长率",
-          intro: "XXXXX",
-          id: "0003",
-        },
-      ],
-      notices: [
-        {
-          info: "这里是一条可以很长的消息1",
-          id: 1,
-        },
-
-        {
-          info: "这里是一条可以很长的消息2",
-          id: 2,
-        },
-        {
-          info: "这里是一条可以很长的消息3",
-          id: 3,
-        },
-      ],
+      loans: [],
+      stores: [],
+      notices: [],
       userInfo: {
-        loan: 4,
-        store: 3,
-        unpaid: 3,
+        loan: 0,
+        store: 0,
+        unpaid: 0,
         // appointed: 5,
       },
     };
   },
   computed: {
     ...mapState("userAbout", ["userName"]),
+    loaded(){
+      if(this.loans.length==0 && this.stores.length==0 && this.notices.length==0 ){
+        return false
+      }
+      else return true
+    }
   },
   mounted() {
     document.title = "主页面";
@@ -163,6 +111,33 @@ export default {
           this.$toast.fail(response.data.data.message);
         } else {
           this.notices = response.data.data;
+        }
+      })
+      .catch((err) => {
+        this.$toast.fail(err.message);
+      });
+    // 获取订单部分
+    this.axios({
+      method: "get",
+      url: "/order/list?token=" + window.localStorage.getItem("token"),
+    })
+      .then((response) => {
+        console.log(response);
+        if (response.data.status != 0) {
+          this.$toast.fail(response.data.data.message);
+          return false;
+        } else {
+          this.orders = response.data.data;
+          for(let i of response.data.data){
+            if(i.status==0){
+              this.unpaid++
+            }else if(i.status==2 && i.flag==0){
+            this.store++
+            }else if(i.status && i.flag==1){
+              this.loan++
+            }
+          }
+          return false;
         }
       })
       .catch((err) => {

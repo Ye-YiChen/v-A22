@@ -6,7 +6,7 @@
       </div>
       <div class="pro-name">{{ orders.itemName }}</div>
       <div class="pro-detail">&#xe6ac;</div>
-      <div class="order-state">已完成</div>
+      <div class="order-state">{{ showStatus(orders.status) }}</div>
     </div>
     <div class="order-body">
       <div class="order-pic">
@@ -57,6 +57,16 @@ export default {
         ":" +
         this.timeSize2(time.getSeconds())
       );
+    },
+    showStatus(value) {
+      if (value == 0) {
+        return "待支付";
+      } else if (value == 1) {
+        return "已取消";
+      } else if (value == 2) {
+        return "已完成";
+      }
+      return false;
     },
   },
 };

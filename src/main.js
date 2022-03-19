@@ -26,7 +26,9 @@ import {
   Icon,
   Card,
   Tag,
-  Sticky
+  Sticky,
+  PasswordInput, 
+  NumberKeyboard
 } from 'vant'
 import '@/assets/fonts/iconfont.css'
 import 'amfe-flexible'
@@ -63,6 +65,8 @@ Vue.use(Icon);
 Vue.use(Card);
 Vue.use(Tag);
 Vue.use(Sticky);
+Vue.use(PasswordInput);
+Vue.use(NumberKeyboard);
 // axios基本设置
 axios.defaults.baseURL = 'http://47.113.180.139:90'
 // 代理服务器 请求本地

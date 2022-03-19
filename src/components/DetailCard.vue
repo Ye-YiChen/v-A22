@@ -5,7 +5,9 @@
       <ul class="pro-box">
         <li class="pro-short-info">
           <div class="short-info-name">自有本金(元)</div>
-          <div class="short-info-detail">{{ order.orderPrice }}</div>
+          <div class="short-info-detail">
+            {{ order.orderPrice * order.amount }}
+          </div>
         </li>
         <li class="pro-short-info">
           <div class="short-info-name return-ico">累计期望回报(元)</div>
@@ -46,45 +48,48 @@
     <ul class="specific-info">
       <li>
         <div class="specific-info-name">产品名称</div>
-        <div class="specific-info-detail">{{order.itemName}}</div>
+        <div class="specific-info-detail">{{ order.itemName }}</div>
       </li>
       <li>
         <div class="specific-info-name">期望年化回报率</div>
-        <div class="specific-info-detail">{{order.num}}%</div>
+        <div class="specific-info-detail">{{ order.num }}%</div>
       </li>
       <li>
         <div class="specific-info-name">购买时间</div>
-        <div class="specific-info-detail">{{dateFormat(order.orderTime)}}</div>
+        <div class="specific-info-detail">
+          {{ dateFormat(order.orderTime) }}
+        </div>
       </li>
       <li>
         <div class="specific-info-name">起息时间</div>
-        <div class="specific-info-detail">{{dateFormat(order.numTime)}}</div>
+        <div class="specific-info-detail">{{ dateFormat(order.numTime) }}</div>
       </li>
       <li>
         <div class="specific-info-name">封闭期</div>
-        <div class="specific-info-detail">{{order.term}}</div>
+        <div class="specific-info-detail">{{ order.term }}天</div>
       </li>
       <li>
         <div class="specific-info-name">结息时间</div>
-        <div class="specific-info-detail">{{dateFormat()}}</div>
+        <div class="specific-info-detail">{{ dateFormat(MoneyTime) }}</div>
       </li>
       <li>
         <div class="specific-info-name">总金额</div>
-        <div class="specific-info-detail">￥{{order.orderPrice}}</div>
+        <div class="specific-info-detail">￥{{ order.orderPrice }}</div>
       </li>
       <li>
         <div class="specific-info-name">总份数</div>
-        <div class="specific-info-detail">共 {{order.amount}} 份</div>
+        <div class="specific-info-detail">共 {{ order.amount }} 份</div>
       </li>
       <li>
         <div class="specific-info-name">订单编号</div>
-        <div class="specific-info-detail">{{order.id}}</div>
+        <div class="specific-info-detail">{{ order.id }}</div>
       </li>
       <li>
         <div class="specific-info-name">风险等级</div>
-        <div class="specific-info-detail" :class="riskColor">{{order.risk}}</div>
+        <div class="specific-info-detail" :class="riskColor">
+          {{ order.risk }}
+        </div>
       </li>
-      
     </ul>
   </div>
 </template>
@@ -93,23 +98,41 @@
 export default {
   props: ["order"],
   data() {
-    return {
-      active: null,
-    };
+    return {};
   },
   computed: {
     interest() {
-      return (this.order.orderPrice * this.order.num * this.order.term) / 360 / 100;
+      return (
+        (this.order.orderPrice * this.order.num * this.order.term) / 360 / 100
+      );
     },
-    riskColor(){
-      if(this.order.risk=='高风险'){
-        return 'red'
+    riskColor() {
+      if (this.order.risk == "高风险") {
+        return "red";
       }
-      if(this.order.risk=='中风险'){
-        return 'yellow'
+      if (this.order.risk == "中风险") {
+        return "yellow";
       }
-      return 'green'
-    }
+      return "green";
+    },
+    MoneyTime() {
+      let time = new Date(this.order.numTime);
+      console.log(time);
+      return time.setDate(time.getDate() + this.order.term);
+    },
+    active() {
+      let time = new Date();
+      // time = time.setDate(time.getDate() + 30)
+      if (time < this.order.num) {
+        return 0;
+      } else if (time < this.MoneyTime) {
+        return 1;
+      } else if (time > this.MoneyTime) {
+        return 2;
+      } else {
+        return 3;
+      }
+    },
   },
   methods: {
     timeSize2(value) {

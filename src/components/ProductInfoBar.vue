@@ -5,7 +5,7 @@
     |
     <div class="per-money yellow">单份{{product.price}}元</div>
     |
-    <div class="total-num">总额{{product.stock}}份</div>
+    <div class="total-num">总额{{product.stock+product.sales}}份</div>
   </div>
 </template>
 

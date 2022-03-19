@@ -1,5 +1,5 @@
 <template>
-  <div class="detail" v-cloak>
+  <div class="detail" v-cloak v-if="orderInfo">
     <page-header><span>订单详情</span></page-header>
     <detail-logo-pic />
     <detail-card  :order="orderInfo"/>

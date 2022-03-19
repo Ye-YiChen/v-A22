@@ -1,5 +1,5 @@
 <template>
-  <div class="product" v-cloak>
+  <div class="product" v-cloak v-if="!product">
     <page-header>产品详情</page-header>
     <product-top-card :product="product">
       <p>注意：年收益率不等于年化收益率相同。<br />理财有风险，投资需谨慎。</p>
@@ -80,7 +80,7 @@ export default {
       activeNames: ["rule", "info"],
       show: false,
       popupText: "",
-      product: {},
+      product: null,
     };
   },
   async mounted() {

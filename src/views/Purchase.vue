@@ -12,17 +12,31 @@
     <van-cell-group class="fix">
       <van-cell
         title="可购金额"
-        :value="'剩余' + Number(product.stock) +'份'"
+        :value="'剩余' + Number(product.stock) + '份'"
       />
       <van-cell title="单笔金额" :value="product.price + '元'" />
     </van-cell-group>
     <purchase-num-card />
     <purchase-agree-card />
     <purchase-bottom-buttom />
+    <!-- 密码输入框 -->
+    <van-password-input
+      :value="value"
+      :focused="showKeyboard"
+      @focus="showKeyboard = true"
+      v-show="showKeyboard"
+    />
+    <!-- 数字键盘 -->
+    <van-number-keyboard
+      v-model="value"
+      :show="showKeyboard"
+      @blur="showKeyboard = false"
+    />
   </div>
 </template>
 
 <script>
+// import { mapState } from "vuex";
 import PageHeader from "../components/PageHeader.vue";
 import PurchaseAgreeCard from "../components/PurchaseAgreeCard.vue";
 import PurchaseBottomButtom from "../components/PurchaseBottomButtom.vue";
@@ -37,19 +51,42 @@ export default {
   data() {
     return {
       product: {},
+      value: "",
+      showKeyboard: false,
     };
+  },
+  computed: {
   },
   mounted() {
     document.title = "购买页面";
     this.product = this.$store.state.orderAbout.productInfo;
   },
-  created(){
+  created() {
     // this.goBack();
-  }
+  },
+  watch: {
+    value(newValue) {
+      this.$store.state.orderAbout.value = newValue;
+    },
+    showKeyboard(newValue) {
+      this.$store.state.orderAbout.showKeyboard = newValue;
+    },
+  },
 };
 </script>
 
 <style>
+.van-password-input {
+  position: fixed;
+  bottom: 244px;
+  left: 50%;
+  width: 100%;
+  margin: 0;
+  background-color: #fff;
+  transform: translateX(-50%);
+  z-index: 99;
+  box-sizing: border-box;
+}
 .fix {
   margin-top: 0.2rem;
 }

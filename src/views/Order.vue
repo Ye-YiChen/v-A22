@@ -18,21 +18,21 @@
       </van-tab>
       <van-tab title="待支付" class="order-container">
         <order-card
-          v-for="(order, index) in orders"
+          v-for="(order, index) in unpaidOrders"
           :key="index"
           :orders="order"
         />
       </van-tab>
       <van-tab title="已完成" class="order-container">
         <order-card
-          v-for="(order, index) in orders"
+          v-for="(order, index) in finishedOrders"
           :key="index"
           :orders="order"
         />
       </van-tab>
       <van-tab title="已取消" class="order-container">
         <order-card
-          v-for="(order, index) in orders"
+          v-for="(order, index) in canceledOrders"
           :key="index"
           :orders="order"
         />
@@ -62,11 +62,12 @@ export default {
       active: null,
       isEmpty: [true, true, true, true],
       orders: [],
+      unpaidOrders: [],
+      canceledOrders: [],
+      finishedOrders: [],
     };
   },
-  computed: {
-    // ...mapState("userAbout", ["userName"]),
-  },
+  computed: {},
   mounted() {
     document.title = "我的订单";
     this.isLogin();
@@ -88,9 +89,6 @@ export default {
             return false;
           } else {
             this.isEmpty[0] = false;
-            this.isEmpty[1] = false;
-            this.isEmpty[2] = false;
-            this.isEmpty[3] = false;
             this.orders = response.data.data;
             return false;
           }
@@ -99,6 +97,26 @@ export default {
       .catch((err) => {
         this.$toast.fail(err.message);
       });
+  },
+  watch: {
+    orders: {
+      immediate:true,
+      deep: true,
+      handler(newValue) {
+        for (let i of newValue) {
+          if (i.status == 0) {
+            this.unpaidOrders.unshift(i);
+            this.isEmpty[1] = false;
+          } else if (i.status == 1) {
+            this.canceledOrders.unshift(i);
+            this.isEmpty[3] = false;
+          } else if (i.status == 2) {
+            this.finishedOrders.unshift(1);
+            this.isEmpty[2] = false;
+          }
+        }
+      },
+    },
   },
 };
 </script>

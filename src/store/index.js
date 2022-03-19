@@ -21,6 +21,8 @@ const orderAbout = {
   state: {
     orderNum: null,
     ifAgree: false,
+    showKeyboard:false,
+    value:'',
     productInfo: {}
   },
   mutations: {
