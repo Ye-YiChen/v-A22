@@ -59,6 +59,14 @@ const minin = {
                 }
             });
         },
+        goWait(orderID){
+            this.$router.push({
+                name: "Wait",
+                params: {
+                    orderID
+                }
+            });
+        },
         goBack() {
             this.$router.back();
         },

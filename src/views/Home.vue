@@ -58,12 +58,15 @@ export default {
   },
   computed: {
     ...mapState("userAbout", ["userName"]),
-    loaded(){
-      if(this.loans.length==0 && this.stores.length==0 && this.notices.length==0 ){
-        return false
-      }
-      else return true
-    }
+    loaded() {
+      if (
+        this.loans.length == 0 &&
+        this.stores.length == 0 &&
+        this.notices.length == 0
+      ) {
+        return false;
+      } else return true;
+    },
   },
   mounted() {
     document.title = "主页面";
@@ -127,14 +130,14 @@ export default {
           this.$toast.fail(response.data.data.message);
           return false;
         } else {
-          this.orders = response.data.data;
-          for(let i of response.data.data){
-            if(i.status==0){
-              this.unpaid++
-            }else if(i.status==2 && i.flag==0){
-            this.store++
-            }else if(i.status && i.flag==1){
-              this.loan++
+          // this.orders = response.data.data;
+          for (let i of response.data.data) {
+            if (i.status == 0) {
+              this.unpaid++;
+            } else if (i.status == 2 && i.flag == 0) {
+              this.store++;
+            } else if (i.status == 2 && i.flag == 1) {
+              this.loan++;
             }
           }
           return false;

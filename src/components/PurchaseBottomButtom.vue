@@ -11,6 +11,7 @@ export default {
   data() {
     return {
       permissionToken: null,
+      orderId: null,
     };
   },
   computed: {
@@ -26,10 +27,15 @@ export default {
         this.$toast.fail('请完整输入"风险提示说明"');
         return false;
       }
-  this.queryBucket()
+      this.queryBucket();
     },
 
     queryBucket() {
+      this.$toast.loading({
+        message: "正在生成订单...",
+        duration: 0,
+        forbidClick: true,
+      });
       this.axios({
         method: "get",
         url: "/order/bucket",
@@ -43,7 +49,7 @@ export default {
             this.$toast.fail(response.data.data.message);
           } else {
             this.permissionToken = response.data.data;
-            this.sendPruchase()
+            this.sendPruchase();
           }
         })
         .catch((err) => {
@@ -51,19 +57,13 @@ export default {
         });
     },
     sendPruchase() {
-      this.$toast.loading({
-        message: "正在购买...",
-        duration: 0,
-        forbidClick: true,
-      });
-
       this.axios({
         method: "post",
         url: "/order/create",
         data: {},
         params: {
           token: window.localStorage.getItem("token"),
-          permissionToken:this.permissionToken,
+          permissionToken: this.permissionToken,
           itemId: this.$route.params.productID,
           amount: this.orderNum,
         },
@@ -72,24 +72,61 @@ export default {
           if (response.data.status != 0) {
             this.$toast.fail(response.data.data.message);
           } else {
-            // this.$store.state.orderAbout.showKeyboard = true;
-            this.$toast.success("购买成功");
-            // console.log(this.$route.params.productID);
-            this.goDetail(response.data.data);
+            this.$toast("请输入支付密码");
+            this.$store.state.orderAbout.showKeyboard = true;
+            this.orderId = response.data.data;
+            this.$store.state.orderAbout.showKeyboard = true;
           }
         })
         .catch((err) => {
           this.$toast.fail(err.message);
         });
     },
-    pwdCheck(){
-      
-    }
+    pwdCheck() {
+      // this.sendPruchase();
+      this.$toast.loading({
+        message: "正在购买...",
+        duration: 0,
+        forbidClick: true,
+      });
+      this.axios({
+        method: "post",
+        url: "/order/check",
+        params: {
+          token: window.localStorage.getItem("token"),
+          paymentPwd: this.value,
+          price:
+            Number(this.$store.state.orderAbout.orderNum) *
+            Number(this.$store.state.orderAbout.productInfo.price),
+        },
+      })
+        .then((response) => {
+          if (response.data.status != 0) {
+            this.$toast.fail(response.data.data.message);
+            this.goWait(this.orderId);
+          } else {
+            this.$store.state.orderAbout.showKeyboard = false;
+            this.$store.state.orderAbout.value = '';
+
+            this.$toast.success("购买成功");
+            // console.log(this.$route.params.productID);
+            this.goDetail(this.orderId);
+          }
+        })
+        .catch((err) => {
+          this.$toast.fail(err.message);
+        });
+    },
+  },
+  beforeDestroy() {
+    this.$store.state.orderAbout.showKeyboard = false;
+    this.$store.state.orderAbout.value = '';
+
   },
   watch: {
     value(newValue) {
-      if (newValue.length == 6) {
-        this.pwdCheck()
+      if (newValue.length >= 6) {
+        this.pwdCheck();
       }
       return false;
     },

@@ -9,14 +9,14 @@
     </div>
     <div class="pro-body">
       <div class="pro-advantage">
-        <div class="adv-num">{{ product.num }}</div>
+        <div class="adv-num">{{ product.num }}%</div>
         <div class="adv-name">{{ product.info }}</div>
       </div>
       <div class="pro-info">
         <div class="pro-important">{{ product.intro }}</div>
         <div class="pro-time">
-          <span class="s-time">{{ product.startTime }}</span>
-          <span class="d-time">开始秒杀</span>
+          <span class="s-time">{{ dateFormat(product.startTime) }} </span>
+          <span class="d-time"> 开始秒杀</span>
         </div>
         <ul class="label-box">
           <li class="pro-label">{{ product.risk }}</li>
@@ -38,6 +38,33 @@ export default {
     return {
       // products: [],
     };
+  },
+  methods: {
+    timeSize2(value) {
+      if (Number(value) < 0) {
+        value = -value;
+      }
+      if (String(value).length < 2) {
+        value = "0" + value;
+      } else if (String(value).length > 2) {
+        value = String(value).substr(0, 2);
+      }
+      return value;
+    },
+    dateFormat(value) {
+      var time = new Date(value);
+      return (
+        time.getFullYear(1) +
+        "-" +
+        this.timeSize2(Number(time.getMonth()) + 1) +
+        "-" +
+        this.timeSize2(time.getDate()) +
+        " " +
+        this.timeSize2(time.getHours()) +
+        ":" +
+        this.timeSize2(time.getSeconds())
+      );
+    },
   },
 };
 </script>

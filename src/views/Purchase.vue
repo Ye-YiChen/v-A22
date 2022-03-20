@@ -5,8 +5,8 @@
       <van-cell title="产品名称" :value="product.name" />
       <van-cell
         title="交易账户"
-        :value="'6288****7077'"
-        label="可用金额99.99元"
+        :value="secret(userInfo.bankCard)"
+        :label="'可用金额' + userInfo.money + ' 元'"
       />
     </van-cell-group>
     <van-cell-group class="fix">
@@ -23,20 +23,24 @@
     <van-password-input
       :value="value"
       :focused="showKeyboard"
-      @focus="showKeyboard = true"
+      @focus="$store.state.orderAbout.showKeyboard = true"
       v-show="showKeyboard"
     />
     <!-- 数字键盘 -->
     <van-number-keyboard
       v-model="value"
       :show="showKeyboard"
-      @blur="showKeyboard = false"
+      @blur="
+        $store.state.orderAbout.showKeyboard = false;
+        $store.state.orderAbout.value = '';
+        value=''
+      "
     />
   </div>
 </template>
 
 <script>
-// import { mapState } from "vuex";
+import { mapState } from "vuex";
 import PageHeader from "../components/PageHeader.vue";
 import PurchaseAgreeCard from "../components/PurchaseAgreeCard.vue";
 import PurchaseBottomButtom from "../components/PurchaseBottomButtom.vue";
@@ -52,14 +56,34 @@ export default {
     return {
       product: {},
       value: "",
-      showKeyboard: false,
+      userInfo: {},
     };
   },
+
   computed: {
+    ...mapState("orderAbout", ["showKeyboard"]),
   },
   mounted() {
     document.title = "购买页面";
     this.product = this.$store.state.orderAbout.productInfo;
+    this.axios({
+      method: "post",
+      url: "/user/info",
+      params: {
+        token: window.localStorage.getItem("token"),
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        if (response.data.status != 0) {
+          this.$toast.fail(response.data.data.message);
+        } else {
+          this.userInfo = response.data.data;
+        }
+      })
+      .catch((err) => {
+        this.$toast.fail(err.message);
+      });
   },
   created() {
     // this.goBack();
@@ -70,6 +94,11 @@ export default {
     },
     showKeyboard(newValue) {
       this.$store.state.orderAbout.showKeyboard = newValue;
+    },
+  },
+  methods: {
+    secret(value) {
+      return String(value).substr(0, 4) + "****" + String(value).substr(-4, 4);
     },
   },
 };

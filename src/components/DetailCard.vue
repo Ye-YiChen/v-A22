@@ -11,7 +11,7 @@
         </li>
         <li class="pro-short-info">
           <div class="short-info-name return-ico">累计期望回报(元)</div>
-          <div class="short-info-detail">{{ interest }}</div>
+          <div class="short-info-detail">{{ (Number(interest)).toFixed(2) }}</div>
         </li>
       </ul>
     </div>
@@ -74,7 +74,7 @@
       </li>
       <li>
         <div class="specific-info-name">总金额</div>
-        <div class="specific-info-detail">￥{{ order.orderPrice }}</div>
+        <div class="specific-info-detail">￥{{ order.orderPrice * order.amount }}</div>
       </li>
       <li>
         <div class="specific-info-name">总份数</div>
