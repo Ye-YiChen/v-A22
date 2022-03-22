@@ -59,6 +59,7 @@ export default {
         return false;
       } else if (this.state == 1) {
         // this.isLogin()
+        console.log(1);
         this.goPurchase(this.$route.params.productID);
         return false;
       } else {
@@ -75,6 +76,7 @@ export default {
         url: "/item/detail/" + this.$route.params.productID,
       })
         .then((response) => {
+          console.log(1);
           if (response.data.status != 0) {
             this.$toast.fail(response.data.data.message);
           } else {
@@ -106,7 +108,7 @@ export default {
           this.time = new Date(this.localProduct.endTime) - new Date();
           this.timer = setInterval(() => {
             this.queryProduct();
-          }, 1000);
+          }, 5000);
           return false;
         }
         if (newValue == 2) {

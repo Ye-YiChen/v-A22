@@ -78,6 +78,7 @@ export default {
         if (response.data.status != 0) {
           this.$toast.fail(response.data.data.message);
         } else {
+          if(response.data.data==null) return false;
           this.userInfo = response.data.data;
         }
       })

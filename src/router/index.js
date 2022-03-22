@@ -34,7 +34,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    // 重定向到login页面
+    // 重定向到home页面
     redirect: '/home'
   },
   {

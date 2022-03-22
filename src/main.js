@@ -33,13 +33,12 @@ import {
 import '@/assets/fonts/iconfont.css'
 import 'amfe-flexible'
 import axios from 'axios'
-import Minxin from './assets/goRoute'
+import Minxin from '../goRoute'
 
 Vue.mixin(Minxin)
 Vue.prototype.axios = axios;
 // 关闭生产提示
 Vue.config.productionTip = false;
-
 // vant 组件引入 
 Vue.use(Checkbox);
 Vue.use(Button);
@@ -68,7 +67,7 @@ Vue.use(Sticky);
 Vue.use(PasswordInput);
 Vue.use(NumberKeyboard);
 // axios基本设置
-axios.defaults.baseURL = 'http://47.113.180.139:90'
+axios.defaults.baseURL = 'http://47.113.224.43:90'
 // 代理服务器 请求本地
 // axios.defaults.baseURL ='http://10.254.77.131:8080/'
 axios.defaults.withCredentials = false
