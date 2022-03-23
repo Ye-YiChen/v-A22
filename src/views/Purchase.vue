@@ -30,6 +30,7 @@
     <van-number-keyboard
       v-model="value"
       :show="showKeyboard"
+      random-key-order
       @blur="
         $store.state.orderAbout.showKeyboard = false;
         $store.state.orderAbout.value = '';

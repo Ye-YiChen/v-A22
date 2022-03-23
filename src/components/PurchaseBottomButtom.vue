@@ -98,6 +98,7 @@ export default {
           price:
             Number(this.$store.state.orderAbout.orderNum) *
             Number(this.$store.state.orderAbout.productInfo.price),
+          orderId: this.orderId,
         },
       })
         .then((response) => {
@@ -106,7 +107,7 @@ export default {
             this.goWait(this.orderId);
           } else {
             this.$store.state.orderAbout.showKeyboard = false;
-            this.$store.state.orderAbout.value = '';
+            this.$store.state.orderAbout.value = "";
 
             this.$toast.success("购买成功");
             // console.log(this.$route.params.productID);
@@ -120,8 +121,7 @@ export default {
   },
   beforeDestroy() {
     this.$store.state.orderAbout.showKeyboard = false;
-    this.$store.state.orderAbout.value = '';
-
+    this.$store.state.orderAbout.value = "";
   },
   watch: {
     value(newValue) {

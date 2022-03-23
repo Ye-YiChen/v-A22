@@ -30,6 +30,7 @@ export default {};
   display: flex;
   padding: 0.4rem 0.2rem;
   margin: 0;
+  width: 100%;
   justify-content: space-between;
   box-sizing: border-box;
   background-color: rgb(222,46,23);

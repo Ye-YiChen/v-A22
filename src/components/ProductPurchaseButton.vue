@@ -196,7 +196,7 @@ export default {
 }
 
 .time-box {
-  /* flex: 25%; */
+  width: 5rem;
   position: relative;
   background-color: rgb(252, 227, 230);
   padding: 0.2rem 0.5rem;

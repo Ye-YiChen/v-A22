@@ -14,7 +14,9 @@ export default {
   display: none;
 }
 body{
+  width: 100%;
   min-height: 100%;
+  overflow-x: hidden;
 }
 #app{
   min-height: 100%;

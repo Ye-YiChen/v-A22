@@ -4,7 +4,7 @@
     <wait-user-info-card :orderTime="orderInfo.orderTime" />
     <van-card
       :num="orderInfo.amount"
-      :price="orderInfo.amount"
+      :price="orderInfo.orderPrice"
       :desc="orderInfo.flag ? '贷款' : '存款'"
       :title="orderInfo.name"
       :thumb="require('../../public/images/nor-logo1.png')"
@@ -18,7 +18,7 @@
           style="margin-top: 20px; background-color: rgb(250, 250, 250)"
           :border="false"
           title="商品单价"
-          :value="orderInfo.price"
+          :value="orderInfo.orderPrice"
         />
         <van-cell
           style="background-color: rgb(250, 250, 250)"
@@ -30,12 +30,12 @@
           style="background-color: rgb(250, 250, 250)"
           :border="false"
           title="商品总价"
-          :value="Number(orderInfo.price) * Number(orderInfo.amount)"
+          :value="Number(orderInfo.orderPrice) * Number(orderInfo.amount)"
         />
         <div class="payment">
           <span>需付款</span>
           <span class="red" style="font-size: 16px; font-weight: 700">
-            ￥{{ Number(orderInfo.price) * Number(orderInfo.amount) }}</span
+            ￥{{ Number(orderInfo.orderPrice) * Number(orderInfo.amount) }}</span
           >
         </div>
       </template>
@@ -55,7 +55,7 @@
         <van-cell
           :border="false"
           title="总金额"
-          :value="'￥' + Number(orderInfo.price) * Number(orderInfo.amount)"
+          :value="'￥' + Number(orderInfo.orderPrice) * Number(orderInfo.amount)"
         />
         <van-cell :border="false" title="总份数" :value="orderInfo.amount" />
         <van-cell :border="false" title="风险等级" :value="orderInfo.risk" />
@@ -75,6 +75,7 @@
     <van-number-keyboard
       v-model="value"
       :show="showKeyboard"
+      random-key-order
       @blur="$store.state.orderAbout.showKeyboard = false"
     />
     <van-sticky :container="container" :offset-top="screenHeight - 50">
@@ -141,7 +142,40 @@ export default {
     pay() {
       this.$store.state.orderAbout.showKeyboard = true;
     },
-    pwdCheck() {},
+    pwdCheck() {
+      // this.sendPruchase();
+      this.$toast.loading({
+        message: "正在购买...",
+        duration: 0,
+        forbidClick: true,
+      });
+      this.axios({
+        method: "post",
+        url: "/order/check",
+        params: {
+          token: window.localStorage.getItem("token"),
+          paymentPwd: this.value,
+          price: Number(this.orderInfo.amount) * Number(this.orderInfo.price),
+          orderId: this.orderId,
+        },
+      })
+        .then((response) => {
+          if (response.data.status != 0) {
+            this.$toast.fail(response.data.data.message);
+            this.goWait(this.orderId);
+          } else {
+            this.$store.state.orderAbout.showKeyboard = false;
+            this.$store.state.orderAbout.value = "";
+
+            this.$toast.success("购买成功");
+            // console.log(this.$route.params.productID);
+            this.goDetail(this.orderId);
+          }
+        })
+        .catch((err) => {
+          this.$toast.fail(err.message);
+        });
+    },
   },
   watch: {
     value(newValue) {
@@ -174,6 +208,9 @@ export default {
         this.$toast.fail(err.message);
       });
   },
+  beforeDestroy() {
+    this.$store.state.orderAbout.showKeyboard = false;
+  },
 };
 </script>
 
@@ -200,6 +237,7 @@ export default {
   background-color: #fff;
   height: 50px;
   padding: 0px 10px;
+  border-top: 1px solid #ccc;
 }
 .payment {
   margin-top: 5px;

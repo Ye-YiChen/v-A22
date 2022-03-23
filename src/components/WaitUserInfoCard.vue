@@ -16,7 +16,7 @@
           <span class="user-name">{{ $store.state.userAbout.userName }}</span>
           <span class="user-phone">86-11111111111</span>
         </div>
-        <div class="bankID">银行卡号：111111111111111111111</div>
+        <div class="bankID">银行卡号：{{ userInfo.bankCard }}</div>
       </div>
       <van-button round size="small" type="danger">修改</van-button>
     </div>
@@ -28,13 +28,40 @@ export default {
   props: ["orderTime"],
   data() {
     return {
+      userInfo: {},
     };
   },
   computed: {
     time() {
+      let lasting = 5 * 60 * 1000;
       let nowTime = new Date();
-      return Number(nowTime - this.orderTime);
+
+      // console.log( this.orderTime);
+      if (!this.orderTime) return 0;
+      let orderTime = new Date(this.orderTime);
+      return Number(lasting - nowTime.getTime() - orderTime.getTime());
     },
+  },
+  mounted() {
+    this.axios({
+      method: "post",
+      url: "/user/info",
+      params: {
+        token: window.localStorage.getItem("token"),
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        if (response.data.status != 0) {
+          this.$toast.fail(response.data.data.message);
+        } else {
+          if (response.data.data == null) return false;
+          this.userInfo = response.data.data;
+        }
+      })
+      .catch((err) => {
+        this.$toast.fail(err.message);
+      });
   },
 };
 </script>

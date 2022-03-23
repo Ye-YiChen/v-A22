@@ -19,7 +19,7 @@ export default {
   components: { SearchHistory, SearchAssociation },
   data() {
     return {
-      value: " ",
+      value: "",
       histories: [],
       timer: null,
       likes: [],
@@ -57,11 +57,15 @@ export default {
         this.axios({
           method: "get",
           url: "/item/search",
-          data: {
+          data:{
+            like: this.value,
+          },
+          params: {
             like: this.value,
           },
         })
           .then((response) => {
+            console.log(response);
             if (response.data.status != 0) {
               this.$toast.fail(response.data.message);
             } else {
