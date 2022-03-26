@@ -125,7 +125,7 @@ export default {
       url: "/order/list?token=" + window.localStorage.getItem("token"),
     })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response.data.status != 0) {
           this.$toast.fail(response.data.data.message);
           return false;

@@ -1,6 +1,9 @@
 <template>
   <footer class="footer" id="footer">
-    <div class="state">
+    <div
+      class="state"
+      v-if="!(this.localProduct.flag == '1' && this.localProduct.state != 2)"
+    >
       <div class="min-logo">
         <img src="../../public/images/ico.png" alt="" />
       </div>
@@ -27,7 +30,7 @@
       </div>
     </div>
     <button class="wide-btn scheduled-btn" ref="btn" @click.once="purchase()">
-      即将开始
+      {{ btnText }}
     </button>
   </footer>
 </template>
@@ -41,6 +44,8 @@ export default {
       time: null,
       timer: null,
       ifFirst: true,
+      btnText: "",
+      countText: "",
     };
   },
   computed: {
@@ -55,12 +60,47 @@ export default {
   methods: {
     purchase() {
       if (this.state == 0) {
-        this.$toast.fail("尚未开始");
+        this.axios({
+          method: "get",
+          url: "/user/screen",
+          params: {
+            token: window.localStorage.getItem("token"),
+            itemId: this.localProduct.id,
+          },
+        })
+          .then((response) => {
+            // console.log(response);
+            if (response.data.status != 0) {
+              this.$toast.fail(response.data.data);
+            } else {
+              this.$toast.success(response.data.data);
+            }
+          })
+          .catch((err) => {
+            this.$toast.fail(err.message);
+          });
         return false;
       } else if (this.state == 1) {
         // this.isLogin()
-        console.log(1);
-        this.goPurchase(this.$route.params.productID);
+        this.axios({
+          method: "get",
+          url: "",
+          params: {
+            token: window.localStorage.getItem("token"),
+            itemId: this.$route.params.productID,
+          },
+        })
+          .then((response) => {
+            console.log(response);
+            if (response.data.status != 0) {
+              this.$toast.fail(response.data.data.message);
+            } else {
+              this.goPurchase(this.$route.params.productID);
+            }
+          })
+          .catch((err) => {
+            this.$toast.fail(err.message);
+          });
         return false;
       } else {
         this.$toast.fail("已经结束了");
@@ -88,7 +128,30 @@ export default {
         });
     },
   },
-  mounted() {},
+  mounted() {
+    if (this.state == 0)
+      setTimeout(() => {
+        this.axios({
+          method: "get",
+          url: "/user/screen",
+          params: {
+            token: window.localStorage.getItem("token"),
+            itemId: this.localProduct.id,
+          },
+        })
+          .then((response) => {
+            // console.log(response);
+            if (response.data.status != 0) {
+              this.$toast.fail(response.data.data);
+            } else {
+              this.$toast.success(response.data.data);
+            }
+          })
+          .catch((err) => {
+            this.$toast.fail(err.message);
+          });
+      }, 200);
+  },
   beforeDestroy() {
     clearInterval(this.timer);
   },
@@ -96,29 +159,35 @@ export default {
     state: {
       immediate: true,
       handler(newValue) {
-        if (newValue == 0) {
-          this.$refs.btn.innerText = "即将开始";
-          this.$refs.countTitle.innerText = "本次秒杀开始还剩";
-          this.time = new Date(this.localProduct.startTime) - new Date();
-          return false;
-        }
-        if (newValue == 1) {
-          this.$refs.btn.innerText = "立即购买";
-          this.$refs.countTitle.innerText = "本次秒杀结束还剩";
-          this.time = new Date(this.localProduct.endTime) - new Date();
-          this.timer = setInterval(() => {
-            this.queryProduct();
-          }, 5000);
-          return false;
-        }
-        if (newValue == 2) {
-          this.$refs.btn.innerText = "售罄";
-          this.$refs.countTitle.innerText = "本次秒杀已经结束";
-          this.time = 0;
-          this.$refs.countDown.pause();
-          clearInterval(this.timer);
-          return false;
-        }
+        console.log(this.localProduct);
+        this.$nextTick(function () {
+          if (newValue == 0) {
+            this.btnText = "即将开始";
+            this.countText = "本次秒杀开始还剩";
+            this.time = new Date(this.localProduct.startTime) - new Date();
+            if (this.localProduct.flag == "1") {
+              this.btnText = "立即申请";
+            }
+            return false;
+          }
+          if (newValue == 1) {
+            this.btnText = "立即购买";
+            this.countText = "本次秒杀结束还剩";
+            this.time = new Date(this.localProduct.endTime) - new Date();
+            this.timer = setInterval(() => {
+              this.queryProduct();
+            }, 5000);
+            return false;
+          }
+          if (newValue == 2) {
+            this.btnText = "售罄";
+            this.countText = "本次秒杀已经结束";
+            this.time = 0;
+            this.$refs.countDown.pause();
+            clearInterval(this.timer);
+            return false;
+          }
+        });
       },
     },
   },

@@ -9,7 +9,7 @@
       <li class="noad-box" v-for="(ad, index) in ads" :key="ad.id" @click="goProduct(ad.id)">
         <div class="noad-rank" :class="'cl' + (index + 1)">{{ index + 1 }}</div>
         <div class="noad-main">
-          <div class="noad-num">{{ ad.num }}</div>
+          <div class="noad-num">{{ Number(ad.num).toFixed(2) }} %</div>
           <div class="noad-info">{{ ad.info }}</div>
         </div>
         <div class="noad-body">
@@ -78,6 +78,7 @@ export default {
 }
 
 .noad-rank {
+  /* flex: 1; */
   width: 0.8rem;
   height: 0.8rem;
   font-size: 0.5333rem;
@@ -105,7 +106,11 @@ export default {
 }
 .noad-body{
   flex: 1;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
 }
+
 .noad-num {
   font-size: 0.6rem;
   color: #ef4c53;

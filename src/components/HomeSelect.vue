@@ -58,24 +58,26 @@ export default {
   },
   mounted() {
     // 用户名请求
-    this.axios({
-      type: "get",
-      url: "/user/status?token=" + window.localStorage.getItem("token"),
-    })
-      .then((response) => {
-        if (response.data.status != 0) {
-          this.$toast.fail(response.data.data.message);
-        } else {
-          // 没有登录则跳过名字赋值
-          if (response.data.data == null) {
-            return false;
-          }
-          this.$store.state.userAbout.userName = response.data.data.name;
-        }
+    if (window.localStorage.getItem("token")) {
+      this.axios({
+        type: "get",
+        url: "/user/status?token=" + window.localStorage.getItem("token"),
       })
-      .catch((err) => {
-        this.$toast.fail(err.message);
-      });
+        .then((response) => {
+          if (response.data.status != 0) {
+            this.$toast.fail(response.data.data.message);
+          } else {
+            // 没有登录则跳过名字赋值
+            if (response.data.data == null) {
+              return false;
+            }
+            this.$store.state.userAbout.userName = response.data.data.name;
+          }
+        })
+        .catch((err) => {
+          this.$toast.fail(err.message);
+        });
+    }
   },
 };
 </script>
