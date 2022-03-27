@@ -92,6 +92,9 @@ export default {
     this.axios({
       method: "get",
       url: "/item/deposit/list",
+      params:{
+        token:window.localStorage.getItem('token')
+      }
     })
       .then((response) => {
         if (response.data.status != 0) {

@@ -84,7 +84,7 @@ export default {
         // this.isLogin()
         this.axios({
           method: "get",
-          url: "",
+          url: "/user/screen/status",
           params: {
             token: window.localStorage.getItem("token"),
             itemId: this.$route.params.productID,
@@ -93,7 +93,7 @@ export default {
           .then((response) => {
             console.log(response);
             if (response.data.status != 0) {
-              this.$toast.fail(response.data.data.message);
+              this.$toast.fail(response.data.data);
             } else {
               this.goPurchase(this.$route.params.productID);
             }
