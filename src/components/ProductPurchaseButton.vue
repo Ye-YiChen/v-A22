@@ -11,7 +11,7 @@
       <div class="pro-left">剩余{{ localProduct.stock }}份</div>
       <div class="time-box red">
         <div class="arrow-left"></div>
-        <div class="time-title red" ref="countTitle">本次秒杀开始还剩</div>
+        <div class="time-title red" ref="countTitle">{{countText}}</div>
         <div class="time-left">
           <van-count-down millisecond :time="time" ref="countDown">
             <template #default="timeData">
@@ -181,6 +181,14 @@ export default {
           }
           if (newValue == 2) {
             this.btnText = "售罄";
+            this.countText = "本次秒杀已经结束";
+            this.time = 0;
+            this.$refs.countDown.pause();
+            clearInterval(this.timer);
+            return false;
+          }
+          if (newValue == 3) {
+            this.btnText = "已经结束";
             this.countText = "本次秒杀已经结束";
             this.time = 0;
             this.$refs.countDown.pause();

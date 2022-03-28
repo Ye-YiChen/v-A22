@@ -91,7 +91,7 @@ export default {
     //获取存款列表
     this.axios({
       method: "get",
-      url: "/item/deposit/list",
+      url: "/item/deposit/recommend",
       params:{
         token:window.localStorage.getItem('token')
       }
