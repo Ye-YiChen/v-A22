@@ -35,14 +35,7 @@ export default {
       window.localStorage.setItem("histories", this.histories);
     },
     onCancel() {
-      console.log(this.value);
-      if (this.value) {
-        console.log(2);
-        // this.value = "";
-      } else {
-        console.log(1);
-        // this.goBack();
-      }
+      this.goBack()
       return false;
     },
   },

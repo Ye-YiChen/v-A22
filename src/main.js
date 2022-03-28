@@ -67,8 +67,8 @@ Vue.use(Sticky);
 Vue.use(PasswordInput);
 Vue.use(NumberKeyboard);
 // axios基本设置
-// axios.defaults.baseURL = 'http://47.113.180.139:8080'
-axios.defaults.baseURL = 'http://127.0.0.1:8080/'
+axios.defaults.baseURL = 'http://47.113.180.139:8080'
+// axios.defaults.baseURL = 'http://127.0.0.1:8080/'
 
 axios.defaults.withCredentials = false
 // axios.defaults.headers.post['Contetn-Type'] = 'application/x-www-form-urlencoded'
