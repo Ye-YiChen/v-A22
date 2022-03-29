@@ -45,20 +45,40 @@ export default {
     } else {
       document.title = "商品超市";
     }
-    this.axios({
-      method: "get",
-      url: "/item/" + url + "/list",
-    })
-      .then((response) => {
-        if (response.data.status != 0) {
-          this.$toast.fail(response.data.data.message);
-        } else {
-          this.products = response.data.data;
-        }
+    if (url == "deposit") {
+      this.axios({
+        method: "get",
+        url: "/item/deposit/recommend",
+        params: {
+          token: window.localStorage.getItem("token"),
+        },
       })
-      .catch((err) => {
-        this.$toast.fail(err.message);
-      });
+        .then((response) => {
+          if (response.data.status != 0) {
+            this.$toast.fail(response.data.data.message);
+          } else {
+            this.products = response.data.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.fail(err.message);
+        });
+    } else {
+      this.axios({
+        method: "get",
+        url: "/item/loan/list",
+      })
+        .then((response) => {
+          if (response.data.status != 0) {
+            this.$toast.fail(response.data.data.message);
+          } else {
+            this.products = response.data.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.fail(err.message);
+        });
+    }
   },
   filters: {
     pageName(value) {

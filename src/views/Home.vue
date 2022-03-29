@@ -89,24 +89,41 @@ export default {
         return false;
       });
     //获取存款列表
-    this.axios({
-      method: "get",
-      url: "/item/deposit/recommend",
-      params:{
-        token:window.localStorage.getItem('token')
-      }
-    })
-      .then((response) => {
-        if (response.data.status != 0) {
-          this.$toast.fail(response.data.data.message);
-        } else {
-          this.stores = response.data.data;
-        }
+    if (window.localStorage.getItem("token")) {
+      this.axios({
+        method: "get",
+        url: "/item/deposit/recommend",
+        params: {
+          token: window.localStorage.getItem("token"),
+        },
       })
-      .catch((err) => {
-        this.$toast.fail(err.message);
-      });
-
+        .then((response) => {
+          if (response.data.status != 0) {
+            this.$toast.fail(response.data.data.message);
+          } else {
+            this.stores = response.data.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.fail(err.message);
+        });
+    } else {
+      this.axios({
+        method: "get",
+        url: "/item/deposit/list",
+        params: {},
+      })
+        .then((response) => {
+          if (response.data.status != 0) {
+            this.$toast.fail(response.data.data.message);
+          } else {
+            this.stores = response.data.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.fail(err.message);
+        });
+    }
     // 获取新闻信息
     this.axios({
       method: "get",
@@ -136,11 +153,11 @@ export default {
           // this.orders = response.data.data;
           for (let i of response.data.data) {
             if (i.status == 0) {
-              this.unpaid++;
+              this.userInfo.unpaid++;
             } else if (i.status == 2 && i.flag == 0) {
-              this.store++;
+              this.userInfo.store++;
             } else if (i.status == 2 && i.flag == 1) {
-              this.loan++;
+              this.userInfo.loan++;
             }
           }
           return false;

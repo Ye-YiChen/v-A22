@@ -2,7 +2,7 @@
   <footer class="footer" id="footer">
     <div
       class="state"
-      v-if="!(this.localProduct.flag == '1' && this.localProduct.state != 2)"
+      v-show="this.localProduct.state != 2 && this.localProduct.state != 3"
     >
       <div class="min-logo">
         <img src="../../public/images/ico.png" alt="" />

@@ -7,6 +7,23 @@
     <product-info-bar :product="product" />
 
     <van-collapse v-model="activeNames" style="margin-bottom: 0.2rem">
+      <!-- <van-collapse-item
+        title="产品信息"
+        name="rule"
+        size="large"
+        :lazy-render="false"
+      >
+        <van-cell title="产品名称" :value="product.name" />
+        <van-cell title="产品价格" :value="'￥ ' + product.price" />
+        <van-cell title="年化利率" :value="product.num + ' %'" />
+        <van-cell title="产品期限" :value="product.term + ' 天'" />
+        <van-cell
+          title="起息日时间"
+          :value="dateFormat(product.numTime).substr(0, 10)"
+        />
+        <van-cell title="到期日时间" :value="dateFormat(product.numTime).substr(0, 10)" />
+        <van-cell title="风险等级" :value="product.risk" />
+      </van-collapse-item> -->
       <van-collapse-item
         title="交易规则"
         name="rule"
