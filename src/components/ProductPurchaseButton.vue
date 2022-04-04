@@ -159,7 +159,7 @@ export default {
     state: {
       immediate: true,
       handler(newValue) {
-        console.log(this.localProduct);
+        // console.log(this.localProduct);
         this.$nextTick(function () {
           if (newValue == 0) {
             this.btnText = "即将开始";

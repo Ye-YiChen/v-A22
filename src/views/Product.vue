@@ -1,5 +1,5 @@
 <template>
-  <div class="product" v-cloak v-show="Object.keys(product).length!=0">
+  <div class="product" v-cloak v-show="Object.keys(product).length != 0">
     <page-header>产品详情</page-header>
     <product-top-card :product="product">
       <p>注意：年收益率不等于年化收益率相同。<br />理财有风险，投资需谨慎。</p>
@@ -49,7 +49,10 @@
           title="起息日时间"
           :value="dateFormat(product.numTime).substr(0, 10)"
         />
-        <van-cell title="到期日时间" :value="dateFormat(product.numTime).substr(0, 10)" />
+        <van-cell
+          title="到期日时间"
+          :value="dateFormat(product.numTime).substr(0, 10)"
+        />
         <van-cell title="风险等级" :value="product.risk" />
       </van-collapse-item>
     </van-collapse>
@@ -80,6 +83,7 @@
 </template>
 
 <script>
+import { areaList } from "@vant/area-data";
 import { mapMutations } from "vuex";
 import PageHeader from "../components/PageHeader.vue";
 import ProductInfoBar from "../components/ProductInfoBar.vue";
@@ -98,6 +102,8 @@ export default {
       show: false,
       popupText: "",
       product: {},
+      rule: {}, // 筛选条件
+      areaList,
     };
   },
   async mounted() {
@@ -120,8 +126,83 @@ export default {
       });
 
     this.SET_PRODUCT_INFO(this.product);
+
+    this.axios({
+      method: "get",
+      url: "/item/rule/" + this.$route.params.productID,
+    }).then((response) => {
+      // console.log(response.data);
+      this.rule = response.data.data;
+      let message = "";
+      message += `用户年龄必须大于 <strong>${this.rule.age}</strong>岁<br/><br/>`;
+      if (this.rule.sex != 2) {
+        message += `用户性别必须为 <strong>${this.indexToSex(this.rule.age)}</strong><br/><br/>`;
+      }
+      message += `用户所在地区必须为 <strong>${this.getArea(this.rule.area)}</strong><br/><br/>`;
+      message += `用户现有资产必须大于 <strong>${this.rule.money}元</strong><br/><br/>`;
+      message += `用户VIP等级必须大于 <strong>${this.indexToVIP(this.rule.vip)}</strong><br/><br/>`;
+      message += `用户职业必须为 <strong>${this.rule.job}</strong><br/>`;
+
+      this.$nextTick(() => {
+        this.$dialog
+          .alert({
+            title: "用户须知",
+            message: message,
+          })
+          .then(() => {
+            // on close
+          });
+      });
+    });
   },
   methods: {
+    indexToSex(code) {
+      if (code == 0) {
+        return "女";
+      }
+      if (code == 1) {
+        return "男";
+      }
+      return "不限";
+    },
+    indexToVIP(code){
+      if(code == 0){
+        return '大众会员'
+      }
+      if(code == 1){
+        return '黄金会员'
+      }
+      if(code ==2){
+        return '白金会员'
+      }
+      return '钻石会员'
+    },
+    getArea(code) {
+      let areaArry = this.areaCodeChange(code);
+      // console.log(areaArry);
+      // console.log(areaList.city_list['110100']);
+
+      return (
+        areaList.province_list[areaArry[0]] +
+        areaList.city_list[areaArry[1]] +
+        areaList.county_list[areaArry[2]]
+      );
+    },
+    areaCodeChange(code) {
+      // 将一个地区码转换为地区码数组
+      code = String(code);
+      if (code == "") return [""];
+      let s1 = code.substr(0, 2),
+        s2 = code.substr(2, 2),
+        s3 = code.substr(4, 2);
+      if (s2 == "00") {
+        return [code, ""];
+      }
+      if (s3 == "00") {
+        return [s1 + "0000", s1 + s2 + "00", ""];
+      }
+      return [s1 + "0000", s1 + s2 + "00", s1 + s2 + s3];
+    },
     showPopup(text) {
       this.show = true;
       this.popupText = text;

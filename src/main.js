@@ -28,7 +28,8 @@ import {
   Tag,
   Sticky,
   PasswordInput, 
-  NumberKeyboard
+  NumberKeyboard,
+  Dialog
 } from 'vant'
 import '@/assets/fonts/iconfont.css'
 import 'amfe-flexible'
@@ -66,9 +67,11 @@ Vue.use(Tag);
 Vue.use(Sticky);
 Vue.use(PasswordInput);
 Vue.use(NumberKeyboard);
+Vue.use(Dialog);
+
 // axios基本设置
-axios.defaults.baseURL = 'http://47.113.180.139:8080'
-// axios.defaults.baseURL = 'http://127.0.0.1:8080/'
+// axios.defaults.baseURL = 'http://47.113.180.139:8080'
+axios.defaults.baseURL = 'http://127.0.0.1:8080/'
 
 axios.defaults.withCredentials = false
 // axios.defaults.headers.post['Contetn-Type'] = 'application/x-www-form-urlencoded'
